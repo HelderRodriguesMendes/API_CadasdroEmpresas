@@ -9,7 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import br.com.testePratico.log.Log;
+import br.com.testePratico.log.LogCountry;
 import br.com.testePratico.model.Country;
 import br.com.testePratico.service.CountryService;
 
@@ -21,7 +21,7 @@ public class CadastroEmpresasApplication implements CommandLineRunner{
 	
 	FileWriter fw;
 	
-	Log lg = new Log();
+	LogCountry lg = new LogCountry();
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CadastroEmpresasApplication.class, args);

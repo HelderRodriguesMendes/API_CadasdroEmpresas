@@ -30,5 +30,7 @@ public class Country implements Serializable{	//PAIS
 	@Size(min = 2, max = 30)
 	private String name;
 	
+	private Boolean ativo;
+	
 	public Country() {}
 }
