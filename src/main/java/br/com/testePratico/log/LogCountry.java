@@ -73,7 +73,7 @@ public class LogCountry {
 		}
 	}
 
-	public void desabilitar(Long id, String entity) {
+	public void desabilitar_ativar(Long id, String entity, boolean ativar) {
 		BufferedReader bf = lc.get_Alter_config(entity);
 		List<String> LINHAS = new ArrayList<>();
 		String linha, linhaAlterada, alteracaoAtual;
@@ -84,7 +84,11 @@ public class LogCountry {
 				Country c = toObjetoCountry(linha);
 
 				if (c.getId() == id) {
-					c.setAtivo(false);
+					if(!ativar) {
+						c.setAtivo(false);
+					}else {
+						c.setAtivo(true);
+					}
 					alteracaoAtual = lc.linhaAlteradaCountry(c);
 					linhaAlterada = linha.replace(linha, alteracaoAtual);
 					LINHAS.add(linhaAlterada);

@@ -31,9 +31,12 @@ public class State implements Serializable{		//ESTADO
 	@Size(min = 2, max = 30)
 	private String name;
 	
+
 	@ManyToOne()
 	@JoinColumn(name = "COUNTRY_ID")
 	private Country country;
+	
+	private Boolean ativo;
 	
 	public State() {}
 

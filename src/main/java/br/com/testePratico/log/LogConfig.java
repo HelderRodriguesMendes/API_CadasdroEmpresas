@@ -45,6 +45,8 @@ public class LogConfig {
 
 		if (entity.equals("country")) {
 			arq = new File("C:\\Users\\helde\\Documents\\Country.txt");
+		} else if (entity.equals("state")) {
+			arq = new File("C:\\Users\\helde\\Documents\\state.txt");
 		}
 		return arq;
 	}
@@ -56,6 +58,8 @@ public class LogConfig {
 		try {
 			if (entity.equals("country")) {
 				lerArq = new FileReader("C:\\Users\\helde\\Documents\\Country.txt");
+			} else if (entity.equals("state")) {
+				lerArq = new FileReader("C:\\Users\\helde\\Documents\\state.txt");
 			}
 
 			bf = new BufferedReader(lerArq);
