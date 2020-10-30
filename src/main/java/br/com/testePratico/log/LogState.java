@@ -19,10 +19,18 @@ public class LogState {
 			arqui = new FileWriter(lc.salvar_deletar_config(entity), true);
 
 			// MONTANDO A NOVA LINHA DO ARQUIVO
-			arqui.write("id:" + state.getId() + "-");
-			arqui.write("name:" + state.getName() + "-");
-			arqui.write("country:" + state.getCountry().getId() + "-");
-			arqui.write("ativo:" + state.getAtivo() + "\n");
+			List<State> STATES = getState("state");
+			if(STATES.isEmpty()) {
+				arqui.write("id:" + state.getId() + "#");
+				arqui.write("name:" + state.getName() + "#");
+				arqui.write("country:" + state.getCountry().getId() + "#");
+				arqui.write("ativo:" + state.getAtivo());
+			}else {
+				arqui.write("\n" + "id:" + state.getId() + "#");
+				arqui.write("name:" + state.getName() + "#");
+				arqui.write("country:" + state.getCountry().getId() + "#");
+				arqui.write("ativo:" + state.getAtivo());
+			}
 
 			arqui.close();
 		} catch (IOException e) {
@@ -49,11 +57,37 @@ public class LogState {
 			return STATES;
 		}
 		
+		public void alterar(State state, String entity) {
+			BufferedReader bf = lc.get_Alter_config(entity);
+			List<String> LINHAS = new ArrayList<>();
+			String linha, linhaAlterada, alteracaoAtual;
+
+			try {
+				while (bf.ready()) {
+					linha = bf.readLine();
+					State s = toObjetoState(linha);
+					
+					if (s.getId() == state.getId()) {
+						alteracaoAtual = linhaAlteradaState(state);
+						linhaAlterada = linha.replace(linha, alteracaoAtual);
+						System.out.println("linha: " + linhaAlterada);
+						LINHAS.add(linhaAlterada);
+					} else {
+						LINHAS.add(linha);
+					}
+				}
+				bf.close();
+				lc.novoTxtAlterado(LINHAS, entity);
+			} catch (IOException e) {
+
+			}
+		}
+		
 		public State toObjetoState(String linha) {
 			State s = new State();
 
 			if (!linha.equals("")) {
-				String[] separado = linha.split("-");
+				String[] separado = linha.split("#");
 
 				String ID = separado[0];
 				String NAME = separado[1];
@@ -73,5 +107,14 @@ public class LogState {
 				s.setCountry(c);
 			}
 			return s;
+		}
+		
+		public String linhaAlteradaState(State s) {
+			String linha = "id:" + s.getId();
+			linha += "#" + "name:" + s.getName();
+			linha += "#" + "country:" + s.getCountry().getId();
+			linha += "#" + "ativo:" + s.getAtivo();
+
+			return linha;
 		}
 }

@@ -8,16 +8,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-import br.com.testePratico.model.Country;
-
 public class LogConfig {
 
-	public void novoTxtAlterado(List<String> LINHAS) {
+	public void novoTxtAlterado(List<String> LINHAS, String entity) {
 
-		File deletar = salvar_deletar_config("country");
+		File deletar = salvar_deletar_config(entity);
 		deletar.delete();
 
-		File TXTalterado = salvar_deletar_config("country");
+		File TXTalterado = salvar_deletar_config(entity);
 
 		FileWriter arqui;
 
@@ -46,7 +44,7 @@ public class LogConfig {
 		if (entity.equals("country")) {
 			arq = new File("C:\\Users\\helde\\Documents\\Country.txt");
 		} else if (entity.equals("state")) {
-			arq = new File("C:\\Users\\helde\\Documents\\state.txt");
+			arq = new File("C:\\Users\\helde\\Documents\\State.txt");
 		}
 		return arq;
 	}
@@ -59,7 +57,7 @@ public class LogConfig {
 			if (entity.equals("country")) {
 				lerArq = new FileReader("C:\\Users\\helde\\Documents\\Country.txt");
 			} else if (entity.equals("state")) {
-				lerArq = new FileReader("C:\\Users\\helde\\Documents\\state.txt");
+				lerArq = new FileReader("C:\\Users\\helde\\Documents\\State.txt");
 			}
 
 			bf = new BufferedReader(lerArq);
@@ -68,13 +66,5 @@ public class LogConfig {
 		}
 
 		return bf;
-	}
-
-	public String linhaAlteradaCountry(Country c) {
-		String linha = "id:" + c.getId();
-		linha += "-" + "name:" + c.getName();
-		linha += "-" + "ativo:" + c.getAtivo();
-
-		return linha;
 	}
 }

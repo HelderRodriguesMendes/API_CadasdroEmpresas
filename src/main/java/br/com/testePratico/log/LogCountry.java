@@ -19,9 +19,17 @@ public class LogCountry {
 			arqui = new FileWriter(lc.salvar_deletar_config(entity), true);
 
 			// MONTANDO A NOVA LINHA DO ARQUIVO
-			arqui.write("id:" + country.getId() + "-");
-			arqui.write("name:" + country.getName() + "-");
-			arqui.write("ativo:" + country.getAtivo() + "\n");
+			List<Country> COUNTRYS = getCountry("country");
+			
+			if(COUNTRYS.isEmpty()) {
+				arqui.write("id:" + country.getId() + "#");
+				arqui.write("name:" + country.getName() + "#");
+				arqui.write("ativo:" + country.getAtivo());
+			}else {
+				arqui.write("\n" + "id:" + country.getId() + "#");
+				arqui.write("name:" + country.getName() + "#");
+				arqui.write("ativo:" + country.getAtivo());
+			}
 
 			arqui.close();
 		} catch (IOException e) {
@@ -59,7 +67,7 @@ public class LogCountry {
 				Country c = toObjetoCountry(linha);
 
 				if (c.getId() == country.getId()) {
-					alteracaoAtual = lc.linhaAlteradaCountry(country);
+					alteracaoAtual = linhaAlteradaCountry(country);
 					linhaAlterada = linha.replace(linha, alteracaoAtual);
 					LINHAS.add(linhaAlterada);
 				} else {
@@ -67,7 +75,7 @@ public class LogCountry {
 				}
 			}
 			bf.close();
-			lc.novoTxtAlterado(LINHAS);
+			lc.novoTxtAlterado(LINHAS, entity);
 		} catch (IOException e) {
 
 		}
@@ -89,7 +97,7 @@ public class LogCountry {
 					}else {
 						c.setAtivo(true);
 					}
-					alteracaoAtual = lc.linhaAlteradaCountry(c);
+					alteracaoAtual = linhaAlteradaCountry(c);
 					linhaAlterada = linha.replace(linha, alteracaoAtual);
 					LINHAS.add(linhaAlterada);
 				} else {
@@ -97,7 +105,7 @@ public class LogCountry {
 				}
 			}
 			bf.close();
-			lc.novoTxtAlterado(LINHAS);
+			lc.novoTxtAlterado(LINHAS, entity);
 		} catch (IOException e) {
 		}
 	}
@@ -106,7 +114,7 @@ public class LogCountry {
 		Country c = new Country();
 
 		if (!linha.equals("")) {
-			String[] separado = linha.split("-");
+			String[] separado = linha.split("#");
 
 			String ID = separado[0];
 			String NAME = separado[1];
@@ -121,6 +129,14 @@ public class LogCountry {
 			c.setAtivo(Boolean.valueOf(separaAtivo[1]));
 		}
 		return c;
+	}
+	
+	public String linhaAlteradaCountry(Country c) {
+		String linha = "id:" + c.getId();
+		linha += "#" + "name:" + c.getName();
+		linha += "#" + "ativo:" + c.getAtivo();
+
+		return linha;
 	}
 
 }

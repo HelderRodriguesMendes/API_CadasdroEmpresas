@@ -42,7 +42,7 @@ public class CadastroEmpresasApplication implements CommandLineRunner{
 		File arqCountry = new File("C:\\Users\\helde\\Documents\\Country.txt");
 		fw = new FileWriter(arqCountry, true);
 		
-		File arqState = new File("C:\\Users\\helde\\Documents\\state.txt");
+		File arqState = new File("C:\\Users\\helde\\Documents\\State.txt");
         fw = new FileWriter(arqState, true);
         
         
