@@ -49,6 +49,8 @@ public class LogConfig {
 			arq = new File("C:\\Users\\helde\\Documents\\City.txt");
 		}else if (entity.equals("neighborhood")) {
 			arq = new File("C:\\Users\\helde\\Documents\\Neighborhood.txt");
+		}else if (entity.equals("company")) {
+			arq = new File("C:\\Users\\helde\\Documents\\Company.txt");
 		}
 		return arq;
 	}
@@ -66,6 +68,8 @@ public class LogConfig {
 				lerArq = new FileReader("C:\\Users\\helde\\Documents\\City.txt");
 			}else if (entity.equals("neighborhood")) {
 				lerArq = new FileReader("C:\\Users\\helde\\Documents\\Neighborhood.txt");
+			}else if (entity.equals("company")) {
+				lerArq = new FileReader("C:\\Users\\helde\\Documents\\Company.txt");
 			}
 
 			bf = new BufferedReader(lerArq);

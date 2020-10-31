@@ -33,7 +33,7 @@ public class LogCompany {
 				arqui.write("neighborhood:" + company.getNeighborhood().getId() + "#");
 				arqui.write("address:" + company.getAddress() + "#");
 				arqui.write("phone:" + company.getPhone() + "#");
-				arqui.write("federalTaxNumber:" + company.getFederalTaxNumber());
+				arqui.write("federalTaxNumber:" + company.getFederalTaxNumber() + "#");
 				arqui.write("ativo:" + company.getAtivo());
 			} else {
 				arqui.write("\n" + "id:" + company.getId() + "#");
@@ -45,7 +45,7 @@ public class LogCompany {
 				arqui.write("neighborhood:" + company.getNeighborhood().getId() + "#");
 				arqui.write("address:" + company.getAddress() + "#");
 				arqui.write("phone:" + company.getPhone() + "#");
-				arqui.write("federalTaxNumber:" + company.getFederalTaxNumber());
+				arqui.write("federalTaxNumber:" + company.getFederalTaxNumber() + "#");
 				arqui.write("ativo:" + company.getAtivo());
 			}
 

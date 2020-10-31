@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.testePratico.exception.NotFound;
+import br.com.testePratico.log.LogCity;
 import br.com.testePratico.log.LogCompany;
+import br.com.testePratico.log.LogCountry;
+import br.com.testePratico.log.LogNeighborhood;
+import br.com.testePratico.log.LogState;
 import br.com.testePratico.model.City;
 import br.com.testePratico.model.Company;
 import br.com.testePratico.model.Country;
@@ -36,16 +40,25 @@ public class CompanyService {
 
 	@Autowired
 	NeighborhoodRepository neighborhoodRepository;
-	
+
 	@Autowired
 	NeighborhoodService neighborhoodService;
-	
-	LogCompany lc = new LogCompany();
+
+	LogCompany logCompany = new LogCompany();
+	LogState logState = new LogState();
+	LogNeighborhood logNeighborhood = new LogNeighborhood();
+	LogCity logCity = new LogCity();
+	LogCountry logCountry = new LogCountry();
 
 	// SALVA UM COUNTRY NO BANCO E NO ARQUIVO DE LOG
 	public Boolean cadastrar(Company company, String status) {
 		Company companySave = null;
 		boolean RESPOSTA = false;
+
+		Country countrySave = null;
+		State stateSave = null;
+		City citySave = null;
+		Neighborhood neighborhoodSave = null;
 
 		// VERIFICA SE O COUNTRY JÁ ESTA CADASTRADO E SE ESTA ATIVO OU NÃO
 		if (status.equals("cadastrar")) {
@@ -54,28 +67,36 @@ public class CompanyService {
 			// FK
 			Optional<Country> getCountry = countryRepository.verificarCcountry(company.getCountry().getName());
 			if (getCountry.isEmpty()) {
-				Country countrySave = countryRepository.save(company.getCountry());
+				countrySave = countryRepository.save(company.getCountry());
+				logCountry.salvar(countrySave, "company");
 				company.setCountry(countrySave);
 			} else {
 				company.setCountry(getCountry.get());
+				countrySave = getCountry.get();
 			}
 
 			// VERIFICA SE O STATE INFORMADO JA ESTA CADASTRADO NO SISTEMA, PARA PEGAR A FK
 			Optional<State> getState = stateRepository.verificarState(company.getState().getName());
 			if (getState.isEmpty()) {
-				State stateSave = stateRepository.save(company.getState());
+				stateSave = stateRepository.save(company.getState());
+				stateSave.setCountry(countrySave);
+				logState.salvar(stateSave, "state");
 				company.setState(stateSave);
 			} else {
 				company.setState(getState.get());
+				stateSave = getState.get();
 			}
 
 			// VERIFICA SE A CITY INFORMADA JA ESTA CADASTRADO NO SISTEMA, PARA PEGAR A FK
 			Optional<City> getCity = cityRepository.verificarCity(company.getCity().getName());
 			if (getCity.isEmpty()) {
-				City citySave = cityRepository.save(company.getCity());
+				citySave = cityRepository.save(company.getCity());
+				citySave.setState(stateSave);
+				logCity.salvar(citySave, "city");
 				company.setCity(citySave);
 			} else {
 				company.setCity(getCity.get());
+				citySave = getCity.get();
 			}
 
 			// VERIFICA SE A NEIGHBORHOOD INFORMADA JA ESTA CADASTRADO NO SISTEMA, PARA
@@ -83,20 +104,25 @@ public class CompanyService {
 			Optional<Neighborhood> getNeighborhood = neighborhoodRepository
 					.verificarNeighborhood(company.getNeighborhood().getName());
 			if (getNeighborhood.isEmpty()) {
-				Neighborhood neighborhoodSave = neighborhoodRepository.save(company.getNeighborhood());
+				neighborhoodSave = neighborhoodRepository.save(company.getNeighborhood());
+				neighborhoodSave.setCity(citySave);
+				neighborhoodSave.setAtivo(true);
+				logNeighborhood.salvar(neighborhoodSave, "neighborhood");
 				company.setNeighborhood(neighborhoodSave);
 			} else {
 				company.setNeighborhood(getNeighborhood.get());
 			}
 
-			companyRepository.save(company);
+			companySave = companyRepository.save(company);
+			logCompany.salvar(companySave, "company");
+			RESPOSTA = true;
 
 			// SALVA OS DADOS QUE ESTAO NO LOG AO INICIAR A API
 		} else if (status.equals("banco")) {
 			companyRepository.save(company);
 		} else if (status.equals("alterar")) {
 			companySave = companyRepository.save(company);
-			lc.alterar(companySave, "company");
+			logCompany.alterar(companySave, "company");
 			RESPOSTA = true;
 		}
 
@@ -111,14 +137,14 @@ public class CompanyService {
 	}
 
 	// BUSCA TODOS OS COUNTRYS CADASTRADOS E ATIVOS
-	public List<Company> findAllCountry() {
+	public List<Company> findAllCompany() {
 		List<Company> COMPANYS = companyRepository.findAllCountry()
 				.orElseThrow(() -> new NotFound("Registros não encontrados"));
 		return COMPANYS;
 	}
 
 	// BUSCA POR NOME OS COUNTRYS CADASTRADOS E ATIVOS
-	public List<Company> countryName(String name) {
+	public List<Company> companyName(String name) {
 		List<Company> COMPANYS = companyRepository.countryName(name)
 				.orElseThrow(() -> new NotFound("Registros não encontrados"));
 		return COMPANYS;
@@ -129,11 +155,11 @@ public class CompanyService {
 
 		if (!ativar) {
 			companyRepository.desativar(id);
-			lc.desabilitar_ativar(id, "company", false);
+			logCompany.desabilitar_ativar(id, "company", false);
 			neighborhoodService.desabilitar_ativar(id, false);
 		} else {
 			companyRepository.ativar(id);
-			lc.desabilitar_ativar(id, "company", true);
+			logCompany.desabilitar_ativar(id, "company", true);
 			neighborhoodService.desabilitar_ativar(id, true);
 		}
 		return true;
