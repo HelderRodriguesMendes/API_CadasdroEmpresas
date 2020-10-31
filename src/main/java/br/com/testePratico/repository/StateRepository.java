@@ -20,11 +20,13 @@ public interface StateRepository extends JpaRepository<State, Long> {
 
 	// BUSCA TODOS OS STATES CADASTRADOS E ATIVOS
 	@Transactional
-	@Query(value = "select * from state where ativo = true limit 100", nativeQuery = true)
+	@Query(value = "select * from state limit 100", nativeQuery = true)
 	Optional<List<State>> findAllState();
 
 	// PESQUISA STATE POR NOME
 	@Transactional
-	@Query(value = "select * from state where ativo = true and name like %?1% limit 100", nativeQuery = true)
+	@Query(value = "select * from state where name like %?1% limit 100", nativeQuery = true)
 	Optional<List<State>> stateName(String name);
+	
+	
 }

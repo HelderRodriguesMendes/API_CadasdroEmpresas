@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,9 +33,12 @@ public class Neighborhood implements Serializable{		//VIZINHANÇA
 	@Size(min = 2, max = 30)
 	private String name;
 	
+	@JsonBackReference
 	@ManyToOne()
 	@JoinColumn(name = "CITY_ID")
 	private City city;
+	
+	private Boolean ativo;
 
 	public Neighborhood() {}
 }

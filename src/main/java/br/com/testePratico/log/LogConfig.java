@@ -45,6 +45,10 @@ public class LogConfig {
 			arq = new File("C:\\Users\\helde\\Documents\\Country.txt");
 		} else if (entity.equals("state")) {
 			arq = new File("C:\\Users\\helde\\Documents\\State.txt");
+		}else if (entity.equals("city")) {
+			arq = new File("C:\\Users\\helde\\Documents\\City.txt");
+		}else if (entity.equals("neighborhood")) {
+			arq = new File("C:\\Users\\helde\\Documents\\Neighborhood.txt");
 		}
 		return arq;
 	}
@@ -58,6 +62,10 @@ public class LogConfig {
 				lerArq = new FileReader("C:\\Users\\helde\\Documents\\Country.txt");
 			} else if (entity.equals("state")) {
 				lerArq = new FileReader("C:\\Users\\helde\\Documents\\State.txt");
+			}else if (entity.equals("city")) {
+				lerArq = new FileReader("C:\\Users\\helde\\Documents\\City.txt");
+			}else if (entity.equals("neighborhood")) {
+				lerArq = new FileReader("C:\\Users\\helde\\Documents\\Neighborhood.txt");
 			}
 
 			bf = new BufferedReader(lerArq);

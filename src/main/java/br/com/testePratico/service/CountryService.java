@@ -76,7 +76,7 @@ public class CountryService {
 		return COUNTRYS;
 	}
 
-	// DESABILITA UM COUNTRY
+	// DESATIVAR OU ATIVAR UM COUNTRY
 	public Boolean desabilitar_ativar(Long id, boolean ativar) {
 
 		if (!ativar) {

@@ -6,28 +6,28 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.testePratico.model.Country;
+import br.com.testePratico.model.City;
 import br.com.testePratico.model.State;
 
-public class LogState {
+public class LogCity {
 	LogConfig lc = new LogConfig();
 
-	public void salvar(State state, String entity) {
+	public void salvar(City city, String entity) {
 		FileWriter arqui;
 
 		try {
 			arqui = new FileWriter(lc.salvar_deletar_config(entity), true);
 
 			// MONTANDO A NOVA LINHA DO ARQUIVO
-			List<State> STATES = getState("state");
-			if (STATES.isEmpty()) {
-				arqui.write("id:" + state.getId() + "#");
-				arqui.write("name:" + state.getName() + "#");
-				arqui.write("country:" + state.getCountry().getId());				
+			List<City> CITYS = getCity("city");
+			if (CITYS.isEmpty()) {
+				arqui.write("id:" + city.getId() + "#");
+				arqui.write("name:" + city.getName() + "#");
+				arqui.write("state:" + city.getState().getId());
 			} else {
-				arqui.write("\n" + "id:" + state.getId() + "#");
-				arqui.write("name:" + state.getName() + "#");
-				arqui.write("country:" + state.getCountry().getId());				
+				arqui.write("\n" + "id:" + city.getId() + "#");
+				arqui.write("name:" + city.getName() + "#");
+				arqui.write("state:" + city.getState().getId());
 			}
 
 			arqui.close();
@@ -37,25 +37,25 @@ public class LogState {
 	}
 
 	// BUSCA TODOS OS DADOS SALVOS NO ARQUIVO
-	public List<State> getState(String entity) {
+	public List<City> getCity(String entity) {
 		BufferedReader bf = lc.get_Alter_config(entity);
-		List<State> STATES = new ArrayList<>();
+		List<City> CITYS = new ArrayList<>();
 		String linha;
 
 		try {
-			State s;
+			City c;
 			while (bf.ready()) {
 				linha = bf.readLine();
-				s = toObjetoState(linha);
-				STATES.add(s);
+				c = toObjetoCity(linha);
+				CITYS.add(c);
 			}
 		} catch (IOException e) {
 
 		}
-		return STATES;
+		return CITYS;
 	}
 
-	public void alterar(State state, String entity) {
+	public void alterar(City city, String entity) {
 		BufferedReader bf = lc.get_Alter_config(entity);
 		List<String> LINHAS = new ArrayList<>();
 		String linha, linhaAlterada, alteracaoAtual;
@@ -63,10 +63,10 @@ public class LogState {
 		try {
 			while (bf.ready()) {
 				linha = bf.readLine();
-				State s = toObjetoState(linha);
+				City s = toObjetoCity(linha);
 
-				if (s.getId() == state.getId()) {
-					alteracaoAtual = linhaAlteradaState(state);
+				if (s.getId() == city.getId()) {
+					alteracaoAtual = linhaAlteradaCity(city);
 					linhaAlterada = linha.replace(linha, alteracaoAtual);
 					LINHAS.add(linhaAlterada);
 				} else {
@@ -80,8 +80,8 @@ public class LogState {
 		}
 	}
 
-	public State toObjetoState(String linha) {
-		State s = new State();
+	public City toObjetoCity(String linha) {
+		City c = new City();
 
 		if (!linha.equals("")) {
 			String[] separado = linha.split("#");
@@ -91,22 +91,22 @@ public class LogState {
 			String FK = separado[2];
 
 			String[] separaID = ID.split(":");
-			String[] separaName = NAME.split(":");			
+			String[] separaName = NAME.split(":");
 			String[] separaFk = FK.split(":");
 
-			s.setId(Long.valueOf(separaID[1]));
-			s.setName(separaName[1]);
-			Country c = new Country();
-			c.setId(Long.valueOf(separaFk[1]));
-			s.setCountry(c);
+			c.setId(Long.valueOf(separaID[1]));
+			c.setName(separaName[1]);
+			State s = new State();
+			s.setId(Long.valueOf(separaFk[1]));
+			c.setState(s);
 		}
-		return s;
+		return c;
 	}
 
-	public String linhaAlteradaState(State s) {
-		String linha = "id:" + s.getId();
-		linha += "#" + "name:" + s.getName();
-		linha += "#" + "country:" + s.getCountry().getId();
+	public String linhaAlteradaCity(City c) {
+		String linha = "id:" + c.getId();
+		linha += "#" + "name:" + c.getName();
+		linha += "#" + "state:" + c.getState().getId();
 
 		return linha;
 	}

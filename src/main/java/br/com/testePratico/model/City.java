@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,6 +33,7 @@ public class City implements Serializable{		//CIDADE
 	@Size(min = 2, max = 30)
 	private String name;
 	
+	@JsonBackReference
 	@ManyToOne()
 	@JoinColumn(name = "STATE_ID")
 	private State state;

@@ -1,7 +1,6 @@
 package br.com.testePratico.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,28 +23,17 @@ public class StateService {
 
 		// VERIFICA SE O STATE JÁ ESTA CADASTRADO E SE ESTA ATIVO OU NÃO
 		if (status.equals("cadastrar")) {
-			Optional<State> s = stateRepository.verificarState(state.getName());
+			stateSave = stateRepository.save(state);
 
-			// SE NÃO ESTIVER CADASTRADO
-			if (s.isEmpty()) {
-				stateSave = stateRepository.save(state);
-				
-				// SALVANDO DADOS NO ARQUIVO DE LOG
-				ls.salvar(stateSave, "state");
-				RESPOSTA = true;
-			} else {
-				// SE O STATE A SER CADASTRADO JA EXISTIR, E ESTIVER DESATIVO, SERA ATIVADO
-				if (!s.get().getAtivo()) {
-
-					// ainda falta
-				}
-			}
-		// SALVA OS DADOS QUE ESTAO NO LOG AO INICIAR A API
+			// SALVANDO DADOS NO ARQUIVO DE LOG
+			ls.salvar(stateSave, "state");
+			RESPOSTA = true;
+			
+			// SALVA OS DADOS QUE ESTAO NO LOG AO INICIAR A API
 		} else if (status.equals("banco")) {
 			stateRepository.save(state);
-		}else if (status.equals("alterar")) {
+		} else if (status.equals("alterar")) {
 			stateSave = stateRepository.save(state);
-			System.out.println("nome: " + stateSave.getName());
 			ls.alterar(stateSave, "state");
 			RESPOSTA = true;
 		}

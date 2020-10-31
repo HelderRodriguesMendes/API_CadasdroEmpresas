@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,25 +21,24 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(of = { "id" })
-public class State implements Serializable{		//ESTADO
+public class State implements Serializable { // ESTADO
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(nullable = false, columnDefinition = "varchar(30)")
 	@Size(min = 2, max = 30)
 	private String name;
-	
 
+	@JsonBackReference
 	@ManyToOne()
 	@JoinColumn(name = "COUNTRY_ID")
 	private Country country;
-	
-	private Boolean ativo;
-	
-	public State() {}
+
+	public State() {
+	}
 
 }

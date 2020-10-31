@@ -19,47 +19,49 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(of = { "id" })
-public class Company implements Serializable{		//VIZINHANÇA
+public class Company implements Serializable { // VIZINHANÇA
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(nullable = false, columnDefinition = "varchar(30)")
 	@Size(min = 2, max = 30)
 	private String tradeName;
-	
+
 	@Column(nullable = false, columnDefinition = "varchar(30)")
 	@Size(min = 2, max = 30)
 	private String corporateName;
-	
+
 	@ManyToOne()
 	@JoinColumn(name = "COUNTRY_ID")
 	private Country country;
-	
+
 	@ManyToOne()
 	@JoinColumn(name = "STATE_ID")
 	private State state;
-	
+
 	@ManyToOne()
 	@JoinColumn(name = "CITY_ID")
 	private City city;
-	
+
 	@ManyToOne()
 	@JoinColumn(name = "NEIGHBORHOOD_ID")
 	private Neighborhood neighborhood;
-	
+
 	@Column(nullable = false, columnDefinition = "varchar(30)")
 	@Size(min = 2, max = 30)
 	private String address;
-	
+
 	@Column(nullable = false, columnDefinition = "varchar(15)")
 	@Size(min = 2, max = 15)
 	private String phone;
-	
-	@Column(nullable = false, columnDefinition = "varchar(30)")
+
+	@Column(nullable = false, columnDefinition = "varchar(30)", unique = true)
 	@Size(min = 2, max = 30)
 	private String federalTaxNumber;
+	
+	private Boolean ativo;
 }
