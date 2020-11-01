@@ -13,14 +13,14 @@ import br.com.testePratico.repository.NeighborhoodRepository;
 
 @Service
 public class NeighborhoodService {
-	
+
 	@Autowired
 	NeighborhoodRepository neighborhoodRepository;
-	
+
 	LogNeighborhood ln = new LogNeighborhood();
-	
-	
-	public Boolean cadastrar(Neighborhood neighborhood, String status) {	
+
+	// SALVA UMA NEIGHBORHOOR NO BANCO E NO ARQUIVO DE LOG
+	public Boolean cadastrar(Neighborhood neighborhood, String status) {
 		Neighborhood neighborhoodSave = null;
 		boolean RESPOSTA = false;
 
@@ -35,11 +35,11 @@ public class NeighborhoodService {
 				// SALVANDO DADOS NO ARQUIVO DE LOG
 				ln.salvar(neighborhoodSave, "neighborhood");
 				RESPOSTA = true;
-			} else if(n.get().getAtivo() == false){
+			} else if (n.get().getAtivo() == false) {
 				desabilitar_ativar(n.get().getId(), true);
 				RESPOSTA = true;
 			}
-			
+
 			// SALVA OS DADOS QUE ESTAO NO LOG AO INICIAR A API
 		} else if (status.equals("banco")) {
 			neighborhoodRepository.save(neighborhood);
@@ -51,30 +51,30 @@ public class NeighborhoodService {
 		return RESPOSTA;
 	}
 
-	// BUSCA TODOS OS STATES CADASTRADOS E ATIVOS
+	// BUSCA TODAS AS NEIGHBORHOOR CADASTRADAS E ATIVAS
 	public List<Neighborhood> findAllNeighborhood() {
 		List<Neighborhood> NEIG = neighborhoodRepository.findAllNeighborhood()
 				.orElseThrow(() -> new NotFound("Registros não encontrados"));
 		return NEIG;
 	}
 
-	// BUSCA POR NOME OS STATES CADASTRADOS E ATIVOS
+	// BUSCA POR NOME TODAS AS NEIGHBORHOOR CADASTRADAS E ATIVAS
 	public List<Neighborhood> neighborhoodName(String name) {
-		List<Neighborhood> NEIG = neighborhoodRepository.stateName(name)
+		List<Neighborhood> NEIG = neighborhoodRepository.neighborhoodName(name)
 				.orElseThrow(() -> new NotFound("Registros não encontrados"));
 		return NEIG;
 	}
-	
-	// DESATIVAR OU ATIVAR UM COUNTRY
-		public Boolean desabilitar_ativar(Long id, boolean ativar) {
 
-			if (!ativar) {
-				neighborhoodRepository.desativar(id);
-				ln.desabilitar_ativar(id, "neighborhood", false);
-			} else {
-				neighborhoodRepository.ativar(id);
-				ln.desabilitar_ativar(id, "neighborhood", true);
-			}
-			return true;
+	// DESATIVAR OU ATIVAR UM COUNTRY
+	public Boolean desabilitar_ativar(Long id, boolean ativar) {
+
+		if (!ativar) {
+			neighborhoodRepository.desativar(id);
+			ln.desabilitar_ativar(id, "neighborhood", false);
+		} else {
+			neighborhoodRepository.ativar(id);
+			ln.desabilitar_ativar(id, "neighborhood", true);
 		}
+		return true;
+	}
 }

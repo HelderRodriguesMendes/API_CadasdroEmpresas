@@ -50,8 +50,8 @@ public class CompanyService {
 	LogCity logCity = new LogCity();
 	LogCountry logCountry = new LogCountry();
 
-	// SALVA UM COUNTRY NO BANCO E NO ARQUIVO DE LOG
-	public Boolean cadastrar(Company company, String status) {		
+	// SALVA UMA COMPANY NO BANCO E NO ARQUIVO DE LOG
+	public Boolean cadastrar(Company company, String status) {
 		Company companySave = null;
 		boolean RESPOSTA = false;
 
@@ -60,12 +60,13 @@ public class CompanyService {
 		City citySave = null;
 		Neighborhood neighborhoodSave = null;
 
-		// VERIFICA SE O COUNTRY JÁ ESTA CADASTRADO E SE ESTA ATIVO OU NÃO
+		// VERIFICA SE A COMPANY JÁ ESTA CADASTRADA E SE ESTA ATIVA OU NÃO
 		if (status.equals("cadastrar") || status.equals("alterar")) {
 
 			if (status.equals("cadastrar")) {
-				// VERIFICA SE O COUNTRY INFORMADO JA ESTA CADASTRADO NO SISTEMA, PARA PEGAR A
-				Optional<Country> getCountry = countryRepository.verificarCcountry(company.getCountry().getName());
+				// VERIFICA SE A COMPANY INFORMADA JA ESTA CADASTRADA NO SISTEMA, PARA PEGAR A
+				// FK
+				Optional<Country> getCountry = countryRepository.verificarCountry(company.getCountry().getName());
 				if (getCountry.isEmpty()) {
 					countrySave = countryRepository.save(company.getCountry());
 					logCountry.salvar(countrySave, "country");
@@ -98,14 +99,14 @@ public class CompanyService {
 				}
 
 				company.getNeighborhood().setCity(citySave);
-				neighborhoodSave = neighborhoodRepository.save(company.getNeighborhood());					
+				neighborhoodSave = neighborhoodRepository.save(company.getNeighborhood());
 				neighborhoodSave.setAtivo(true);
 				logNeighborhood.salvar(neighborhoodSave, "neighborhood");
 				company.setNeighborhood(neighborhoodSave);
 
 			} else {
 				String ID = "";
-				
+
 				ID = String.valueOf(company.getCountry().getId());
 				if (ID.equals("") || company.getCountry().getId() == null) {
 					countrySave = countryRepository.save(company.getCountry());
@@ -128,19 +129,19 @@ public class CompanyService {
 					stateSave = company.getState();
 					company.getCity().setState(company.getState());
 				}
-				
+
 				ID = String.valueOf(company.getCity().getId());
-				if (ID.equals("") || company.getCity().getId()==null) {					
+				if (ID.equals("") || company.getCity().getId() == null) {
 					company.getCity().setState(stateSave);
-					citySave = cityRepository.save(company.getCity());					
-					logCity.salvar(citySave, "city");					
+					citySave = cityRepository.save(company.getCity());
+					logCity.salvar(citySave, "city");
 					company.getNeighborhood().setCity(citySave);
 					company.setCity(citySave);
 				} else {
 					citySave = company.getCity();
 					company.getNeighborhood().setCity(company.getCity());
 				}
-				
+
 				ID = String.valueOf(company.getNeighborhood().getId());
 				if (ID.equals("") || company.getNeighborhood().getId() == null) {
 					company.getNeighborhood().setCity(citySave);
@@ -150,13 +151,12 @@ public class CompanyService {
 				}
 
 			}
-			
-			System.out.println("nome para altera 1: " + company.getNeighborhood().getName());
+
 			companySave = null;
 			companySave = companyRepository.save(company);
 			companySave.getNeighborhood().setName(company.getNeighborhood().getName());
-			companySave.getNeighborhood().setCity(company.getCity());			
-			
+			companySave.getNeighborhood().setCity(company.getCity());
+
 			if (status.equals("cadastrar")) {
 				logCompany.salvar(companySave, "company");
 			} else if (status.equals("alterar")) {
@@ -172,31 +172,32 @@ public class CompanyService {
 		return RESPOSTA;
 	}
 
-	// BUSCA TODOS OS COUNTRYS CADASTRADOS E DESATIVADOS
+	// BUSCA TODOS AS COMPANY CADASTRADAS E DESATIVADAS
 	public List<Company> findAllCompanyDesativados() {
 		List<Company> COMPANYS = companyRepository.findAllDesativados()
 				.orElseThrow(() -> new NotFound("Registros não encontrados"));
 		return COMPANYS;
 	}
 
-	// BUSCA TODOS OS COUNTRYS CADASTRADOS E ATIVOS
+	// BUSCA TODOS AS COMPANY CADASTRADAS E ATIVAS
 	public List<Company> findAllCompany() {
 		List<Company> COMPANYS = companyRepository.findAllCompany()
 				.orElseThrow(() -> new NotFound("Registros não encontrados"));
 		return COMPANYS;
 	}
 
-	// BUSCA POR NOME OS COUNTRYS CADASTRADOS E ATIVOS
+	// BUSCA POR NOME AS COMPANY CADASTRADAS E ATIVAS
 	public List<Company> companyName(String name) {
 		List<Company> COMPANYS = companyRepository.companyName(name)
 				.orElseThrow(() -> new NotFound("Registros não encontrados"));
 		return COMPANYS;
 	}
 
-	// DESATIVAR OU ATIVAR UM COUNTRY
+	// DESATIVA OU ATIVA UMA COMPANY
 	public Boolean desabilitar_ativar(Long id, boolean ativar) {
-		
-		Company neighborhood = companyRepository.findByNeighborhood(id).orElseThrow(() -> new NotFound("Registros não encontrados"));
+
+		Company neighborhood = companyRepository.findById(id)
+				.orElseThrow(() -> new NotFound("Registros não encontrados"));
 		if (!ativar) {
 			companyRepository.desativar(id);
 			logCompany.desabilitar_ativar(id, "company", false);

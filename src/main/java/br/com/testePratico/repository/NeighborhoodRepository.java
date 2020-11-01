@@ -21,18 +21,18 @@ public interface NeighborhoodRepository extends JpaRepository<Neighborhood, Long
 	@Query(value = "select * from neighborhood limit 100", nativeQuery = true)
 	Optional<List<Neighborhood>> findAllNeighborhood();
 
-	// PESQUISA STATE POR NOME
+	// BUSCA POR NOME TODAS AS NEIGHBORHOOR CADASTRADAS E ATIVAS
 	@Transactional
 	@Query(value = "select * from neighborhood where name like %?1% limit 100", nativeQuery = true)
-	Optional<List<Neighborhood>> stateName(String name);
+	Optional<List<Neighborhood>> neighborhoodName(String name);
 
-	// DESATIVA UM COUNTRY
+	// DESATIVA UMA NEIGHBORHOOR
 	@Transactional
 	@Modifying
 	@Query(value = "update neighborhood set ativo = false where id = ?1", nativeQuery = true)
 	void desativar(Long id);
 
-	// ATIVA UM COUNTRY
+	// ATIVA UMA NEIGHBORHOOR
 	@Transactional
 	@Modifying
 	@Query(value = "update neighborhood set ativo = true where id = ?1", nativeQuery = true)

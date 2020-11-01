@@ -25,27 +25,27 @@ public class CityController {
 	@Autowired
 	CityService cityService;
 
-	// SALVA UM STATE NO BANCO E NO ARQUIVO DE LOG
+	// SALVA UMA CITY NO BANCO E NO ARQUIVO DE LOG
 	@PostMapping(value = "/cadastrar", produces = "application/json")
 	public ResponseEntity<Boolean> cadastrar(@Valid @RequestBody City city) {
 		return new ResponseEntity<Boolean>(cityService.cadastrar(city, "cadastrar"), HttpStatus.CREATED);
 	}
 
-	// BUSCA TODOS OS STATES CADASTRADOS E ATIVOS
+	// BUSCA TODOS AS CITYS CADASTRADAS
 	@GetMapping("/findAllCity")
 	public ResponseEntity<List<City>> findAllCity() {
 		List<City> CITYS = cityService.findAllCity();
 		return new ResponseEntity<List<City>>(CITYS, HttpStatus.OK);
 	}
 
-	/// BUSCA POR NOME OS STATES CADASTRADOS E ATIVOS
+	// BUSCA POR NOME AS CITYS CADASTRADAS
 	@GetMapping("/findAllCity/name")
 	public ResponseEntity<List<City>> stateName(@RequestParam String name) {
 		List<City> CITYS = cityService.cityName(name);
 		return new ResponseEntity<List<City>>(CITYS, HttpStatus.OK);
 	}
 
-	// ALTERA UM STATE
+	// ALTERA UMA CITY
 	@PutMapping("/alterar/{id}")
 	public ResponseEntity<Boolean> alterar(@Valid @RequestBody City city, @PathVariable Long id) {
 		city.setId(id);

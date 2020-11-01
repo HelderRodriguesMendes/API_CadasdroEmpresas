@@ -24,9 +24,9 @@ public class CountryService {
 		Country countrySave = null;
 		boolean RESPOSTA = false;
 
-		// VERIFICA SE O COUNTRY JÁ ESTA CADASTRADO E SE ESTA ATIVO OU NÃO
+		// VERIFICA SE O COUNTRY JÁ ESTA CADASTRADO
 		if (status.equals("cadastrar")) {
-			Optional<Country> c = countryRepository.verificarCcountry(country.getName());
+			Optional<Country> c = countryRepository.verificarCountry(country.getName());
 
 			// SE NÃO ESTIVER CADASTRADO
 			if (c.isEmpty()) {
@@ -36,10 +36,6 @@ public class CountryService {
 				l.salvar(countrySave, "country");
 				RESPOSTA = true;
 			} else {
-				// SE O Country A SER CADASTRADO JA EXISTIR, E ESTIVER DESATIVO, SERA ATIVADO
-				if (!c.get().getAtivo()) {
-					desabilitar_ativar(c.get().getId(), true);
-				}
 				RESPOSTA = true;
 			}
 
@@ -55,37 +51,17 @@ public class CountryService {
 		return RESPOSTA;
 	}
 
-	// BUSCA TODOS OS COUNTRYS CADASTRADOS E DESATIVADOS
-	public List<Country> findAllCountryDesativados() {
-		List<Country> COUNTRYS = countryRepository.findAllDesativados()
-				.orElseThrow(() -> new NotFound("Registros não encontrados"));
-		return COUNTRYS;
-	}
-
-	// BUSCA TODOS OS COUNTRYS CADASTRADOS E ATIVOS
+	// BUSCA TODOS OS COUNTRYS CADASTRADOS
 	public List<Country> findAllCountry() {
 		List<Country> COUNTRYS = countryRepository.findAllCountry()
 				.orElseThrow(() -> new NotFound("Registros não encontrados"));
 		return COUNTRYS;
 	}
 
-	// BUSCA POR NOME OS COUNTRYS CADASTRADOS E ATIVOS
+	// BUSCA POR NOME OS COUNTRYS CADASTRADOS
 	public List<Country> countryName(String name) {
 		List<Country> COUNTRYS = countryRepository.countryName(name)
 				.orElseThrow(() -> new NotFound("Registros não encontrados"));
 		return COUNTRYS;
-	}
-
-	// DESATIVAR OU ATIVAR UM COUNTRY
-	public Boolean desabilitar_ativar(Long id, boolean ativar) {
-
-		if (!ativar) {
-			countryRepository.desativar(id);
-			l.desabilitar_ativar(id, "country", false);
-		} else {
-			countryRepository.ativar(id);
-			l.desabilitar_ativar(id, "country", true);
-		}
-		return true;
 	}
 }

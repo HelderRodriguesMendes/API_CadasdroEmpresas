@@ -22,55 +22,55 @@ import br.com.testePratico.service.CompanyService;
 @RestController
 @RequestMapping("/company")
 public class CompanyController {
-	
+
 	@Autowired
 	CompanyService companyService;
-	
-	// SALVA UM COUNTRY NO BANCO E NO ARQUIVO DE LOG
-		@PostMapping(value = "/cadastrar", produces = "application/json")
-		public ResponseEntity<Boolean> cadastrar(@RequestBody Company company) {
-			return new ResponseEntity<Boolean>(companyService.cadastrar(company, "cadastrar"), HttpStatus.CREATED);
-		}
 
-		// BUSCA TODOS OS COUNTRYS CADASTRADOS E ATIVOS
-		@GetMapping("/findAllCompany")
-		public ResponseEntity<List<Company>> findAllCompany() {
-			List<Company> COMPANYS = companyService.findAllCompany();
-			return new ResponseEntity<List<Company>>(COMPANYS, HttpStatus.OK);
-		}
+	// SALVA UMA COMPANY NO BANCO E NO ARQUIVO DE LOG
+	@PostMapping(value = "/cadastrar", produces = "application/json")
+	public ResponseEntity<Boolean> cadastrar(@RequestBody Company company) {
+		return new ResponseEntity<Boolean>(companyService.cadastrar(company, "cadastrar"), HttpStatus.CREATED);
+	}
 
-		// BUSCA POR NOME OS COUNTRYS CADASTRADOS E ATIVOS
-		@GetMapping("/findAllCompany/name")
-		public ResponseEntity<List<Company>> company_Name(@RequestParam String name) {
-			List<Company> COMPANYS = companyService.companyName(name);
-			return new ResponseEntity<List<Company>>(COMPANYS, HttpStatus.OK);
-		}
+	// BUSCA TODOS AS COMPANY CADASTRADAS E ATIVAS
+	@GetMapping("/findAllCompany")
+	public ResponseEntity<List<Company>> findAllCompany() {
+		List<Company> COMPANYS = companyService.findAllCompany();
+		return new ResponseEntity<List<Company>>(COMPANYS, HttpStatus.OK);
+	}
 
-		// ALTERA UM COUNTRY
-		@PutMapping("/alterar/{id}")
-		public ResponseEntity<Boolean> alterar(@Valid @RequestBody Company company, @PathVariable Long id) {
-			company.setId(id);
-			return new ResponseEntity<Boolean>(companyService.cadastrar(company, "alterar"), HttpStatus.CREATED);
-		}
+	// BUSCA POR NOME AS COMPANY CADASTRADAS E ATIVAS
+	@GetMapping("/findAllCompany/name")
+	public ResponseEntity<List<Company>> company_Name(@RequestParam String name) {
+		List<Company> COMPANYS = companyService.companyName(name);
+		return new ResponseEntity<List<Company>>(COMPANYS, HttpStatus.OK);
+	}
 
-		// DESATIVAR UM COUNTRY
-		@GetMapping("/desativar/{id}")
-		public ResponseEntity<Boolean> desativar(@PathVariable("id") Long id) {
-			Boolean COMPANY = companyService.desabilitar_ativar(id, false);
-			return ResponseEntity.ok().body(COMPANY);
-		}
+	// ALTERA UMA COMPANY
+	@PutMapping("/alterar/{id}")
+	public ResponseEntity<Boolean> alterar(@Valid @RequestBody Company company, @PathVariable Long id) {
+		company.setId(id);
+		return new ResponseEntity<Boolean>(companyService.cadastrar(company, "alterar"), HttpStatus.CREATED);
+	}
 
-		// BUSCA TODOS OS COUNTRYS CADASTRADOS E DESATIVADOS
-		@GetMapping("/findAllCompanyDesativados")
-		public ResponseEntity<List<Company>> findAllCountryDesativados() {
-			List<Company> COMPANYS = companyService.findAllCompanyDesativados();
-			return new ResponseEntity<List<Company>>(COMPANYS, HttpStatus.OK);
-		}
+	// DESATIVA UMA COMPANY
+	@GetMapping("/desativar/{id}")
+	public ResponseEntity<Boolean> desativar(@PathVariable("id") Long id) {
+		Boolean COMPANY = companyService.desabilitar_ativar(id, false);
+		return ResponseEntity.ok().body(COMPANY);
+	}
 
-		// ATIVAR UM COUNTRY
-		@GetMapping("/ativar/{id}")
-		public ResponseEntity<Boolean> ativar(@PathVariable("id") Long id) {
-			Boolean COMPANY = companyService.desabilitar_ativar(id, true);
-			return ResponseEntity.ok().body(COMPANY);
-		}
+	// BUSCA TODOS AS COMPANY CADASTRADAS E DESATIVADAS
+	@GetMapping("/findAllCompanyDesativados")
+	public ResponseEntity<List<Company>> findAllCompanyDesativados() {
+		List<Company> COMPANYS = companyService.findAllCompanyDesativados();
+		return new ResponseEntity<List<Company>>(COMPANYS, HttpStatus.OK);
+	}
+
+	// ATIVA UMA COMPANY
+	@GetMapping("/ativar/{id}")
+	public ResponseEntity<Boolean> ativar(@PathVariable("id") Long id) {
+		Boolean COMPANY = companyService.desabilitar_ativar(id, true);
+		return ResponseEntity.ok().body(COMPANY);
+	}
 }

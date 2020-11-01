@@ -18,7 +18,7 @@ public interface StateRepository extends JpaRepository<State, Long> {
 	@Query(value = "select * from state where name = ?1", nativeQuery = true)
 	Optional<State> verificarState(String name);
 
-	// BUSCA TODOS OS STATES CADASTRADOS E ATIVOS
+	// BUSCA TODOS OS STATES CADASTRADOS
 	@Transactional
 	@Query(value = "select * from state limit 100", nativeQuery = true)
 	Optional<List<State>> findAllState();
@@ -27,6 +27,5 @@ public interface StateRepository extends JpaRepository<State, Long> {
 	@Transactional
 	@Query(value = "select * from state where name like %?1% limit 100", nativeQuery = true)
 	Optional<List<State>> stateName(String name);
-	
-	
+
 }

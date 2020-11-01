@@ -32,14 +32,14 @@ public class CountryController {
 		return new ResponseEntity<Boolean>(countryService.cadastrar(country, "cadastrar"), HttpStatus.CREATED);
 	}
 
-	// BUSCA TODOS OS COUNTRYS CADASTRADOS E ATIVOS
+	// BUSCA TODOS OS COUNTRYS CADASTRADOS
 	@GetMapping("/findAllCountry")
 	public ResponseEntity<List<Country>> findAllCountry() {
 		List<Country> COUNTRYS = countryService.findAllCountry();
 		return new ResponseEntity<List<Country>>(COUNTRYS, HttpStatus.OK);
 	}
 
-	// BUSCA POR NOME OS COUNTRYS CADASTRADOS E ATIVOS
+	// BUSCA POR NOME OS COUNTRYS CADASTRADOS
 	@GetMapping("/findAllCountry/name")
 	public ResponseEntity<List<Country>> countryName(@RequestParam String name) {
 		List<Country> COUNTRYS = countryService.countryName(name);
@@ -51,26 +51,5 @@ public class CountryController {
 	public ResponseEntity<Boolean> alterar(@Valid @RequestBody Country country, @PathVariable Long id) {
 		country.setId(id);
 		return new ResponseEntity<Boolean>(countryService.cadastrar(country, "alterar"), HttpStatus.CREATED);
-	}
-
-	// DESATIVAR UM COUNTRY
-	@GetMapping("/desativar/{id}")
-	public ResponseEntity<Boolean> desativar(@PathVariable("id") Long id) {
-		Boolean COUNTRY = countryService.desabilitar_ativar(id, false);
-		return ResponseEntity.ok().body(COUNTRY);
-	}
-
-	// BUSCA TODOS OS COUNTRYS CADASTRADOS E DESATIVADOS
-	@GetMapping("/findAllCountryDesativados")
-	public ResponseEntity<List<Country>> findAllCountryDesativados() {
-		List<Country> COUNTRYS = countryService.findAllCountryDesativados();
-		return new ResponseEntity<List<Country>>(COUNTRYS, HttpStatus.OK);
-	}
-
-	// ATIVAR UM COUNTRY
-	@GetMapping("/ativar/{id}")
-	public ResponseEntity<Boolean> ativar(@PathVariable("id") Long id) {
-		Boolean COUNTRY = countryService.desabilitar_ativar(id, true);
-		return ResponseEntity.ok().body(COUNTRY);
 	}
 }

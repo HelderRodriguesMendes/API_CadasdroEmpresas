@@ -17,11 +17,12 @@ public class CityService {
 
 	LogCity lc = new LogCity();
 
+	// SALVA UMA CITY NO BANCO E NO ARQUIVO DE LOG
 	public Boolean cadastrar(City city, String status) {
 		City citySave = null;
 		boolean RESPOSTA = false;
 
-		// VERIFICA SE O STATE JÁ ESTA CADASTRADO E SE ESTA ATIVO OU NÃO
+		// VERIFICA SE O STATE JÁ ESTA CADASTRADO
 		if (status.equals("cadastrar")) {
 			citySave = cityRepository.save(city);
 
@@ -40,15 +41,15 @@ public class CityService {
 		return RESPOSTA;
 	}
 
-	// BUSCA TODOS OS STATES CADASTRADOS E ATIVOS
+	// BUSCA TODOS AS CITYS CADASTRADAS
 	public List<City> findAllCity() {
 		List<City> CITYS = cityRepository.findAllCity().orElseThrow(() -> new NotFound("Registros não encontrados"));
 		return CITYS;
 	}
 
-	// BUSCA POR NOME OS STATES CADASTRADOS E ATIVOS
+	// BUSCA POR NOME AS CITYS CADASTRADAS
 	public List<City> cityName(String name) {
-		List<City> CITYS = cityRepository.stateName(name).orElseThrow(() -> new NotFound("Registros não encontrados"));
+		List<City> CITYS = cityRepository.cityName(name).orElseThrow(() -> new NotFound("Registros não encontrados"));
 		return CITYS;
 	}
 }
