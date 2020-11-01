@@ -15,16 +15,16 @@ public interface CityRepository extends JpaRepository<City, Long> {
 
 	// PESQUISA STATEs POR NOME
 	@Transactional
-	@Query(value = "select * from city where name = ?1", nativeQuery = true)
+	@Query(value = "select * from city where name = ?1 order by name", nativeQuery = true)
 	Optional<City> verificarCity(String name);
 
 	// BUSCA TODOS AS CITYS CADASTRADAS
 	@Transactional
-	@Query(value = "select * from city limit 100", nativeQuery = true)
+	@Query(value = "select * from city order by name limit 100", nativeQuery = true)
 	Optional<List<City>> findAllCity();
 
 	// BUSCA POR NOME AS CITYS CADASTRADAS
 	@Transactional
-	@Query(value = "select * from city where name like %?1% limit 100", nativeQuery = true)
+	@Query(value = "select * from city where name like %?1% order by name limit 100", nativeQuery = true)
 	Optional<List<City>> cityName(String name);
 }

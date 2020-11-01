@@ -13,17 +13,17 @@ import br.com.testePratico.model.Neighborhood;
 public interface NeighborhoodRepository extends JpaRepository<Neighborhood, Long> {
 	// PESQUISA STATEs POR NOME
 	@Transactional
-	@Query(value = "select * from neighborhood where name = ?1", nativeQuery = true)
+	@Query(value = "select * from neighborhood where name = ?1 order by name", nativeQuery = true)
 	Optional<Neighborhood> verificarNeighborhood(String name);
 
 	// BUSCA TODOS OS STATES CADASTRADOS E ATIVOS
 	@Transactional
-	@Query(value = "select * from neighborhood limit 100", nativeQuery = true)
+	@Query(value = "select * from neighborhood order by name limit 100", nativeQuery = true)
 	Optional<List<Neighborhood>> findAllNeighborhood();
 
 	// BUSCA POR NOME TODAS AS NEIGHBORHOOR CADASTRADAS E ATIVAS
 	@Transactional
-	@Query(value = "select * from neighborhood where name like %?1% limit 100", nativeQuery = true)
+	@Query(value = "select * from neighborhood where name like %?1% order by name limit 100", nativeQuery = true)
 	Optional<List<Neighborhood>> neighborhoodName(String name);
 
 	// DESATIVA UMA NEIGHBORHOOR

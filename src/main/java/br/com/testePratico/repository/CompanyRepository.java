@@ -14,17 +14,17 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
 	// BUSCA TODOS AS COMPANY CADASTRADAS E ATIVAS
 	@Transactional
-	@Query(value = "select * from company where ativo = true limit 100", nativeQuery = true)
+	@Query(value = "select * from company where ativo = true order by CORPORATE_NAME limit 100", nativeQuery = true)
 	Optional<List<Company>> findAllCompany();
 
 	// BUSCA TODOS AS COMPANY CADASTRADAS E DESATIVADAS
 	@Transactional
-	@Query(value = "select * from company where ativo = false limit 100", nativeQuery = true)
+	@Query(value = "select * from company where ativo = false order by CORPORATE_NAME limit 100", nativeQuery = true)
 	Optional<List<Company>> findAllDesativados();
 
 	// BUSCA POR NOME AS COMPANY CADASTRADAS E ATIVAS
 	@Transactional
-	@Query(value = "select * from company where ativo = true and trade_Name like %?1% limit 100", nativeQuery = true)
+	@Query(value = "select * from company where ativo = true and trade_Name like %?1% order by CORPORATE_NAME limit 100", nativeQuery = true)
 	Optional<List<Company>> companyName(String trade_Name);
 
 	// DESATIVA UM COUNTRY
