@@ -107,12 +107,14 @@ public class CompanyService {
 				String ID = "";
 				
 				ID = String.valueOf(company.getCountry().getId());
-				if (ID.equals("")) {
+				if (ID.equals("") || company.getCountry().getId() == null) {
 					countrySave = countryRepository.save(company.getCountry());
 					logCountry.salvar(countrySave, "country");
+					company.getState().setCountry(countrySave);
 					company.setCountry(countrySave);
 				} else {
 					countrySave = company.getCountry();
+					company.getState().setCountry(company.getCountry());
 				}
 
 				ID = String.valueOf(company.getState().getId());
@@ -138,6 +140,9 @@ public class CompanyService {
 					citySave = company.getCity();
 					company.getNeighborhood().setCity(company.getCity());
 				}
+				
+				neighborhoodSave = neighborhoodRepository.save(company.getNeighborhood());
+				logNeighborhood.alterar(neighborhoodSave, "neighborhood");
 			}
 
 			companySave = companyRepository.save(company);
