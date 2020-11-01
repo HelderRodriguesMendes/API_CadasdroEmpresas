@@ -75,37 +75,31 @@ public class CadastroEmpresasApplication implements CommandLineRunner {
 		File arqCompany = new File("C:\\Users\\helde\\Documents\\Company.txt");
 		fw = new FileWriter(arqCompany, true);
 
+		// PEGA TODOS OS DADOS SALVOS NOS ARQUIVOS DE LOG
 		List<Country> COUNTRYS = lg.getCountry("country");
 		List<State> STATES = ls.getState("state");
 		List<City> CITYS = lc.getCity("city");
 		List<Neighborhood> NEIG = ln.getNeighborhood("neighborhood");
 		List<Company> COMPA = lcom.getCompany("company");
 
+		// SE HOUVER DADOS SALVOS NOS ARQUIVOS, SALVA ELES NO BANCO NOVAMENTE
 		if (!COUNTRYS.isEmpty()) {
 			for (Country c : COUNTRYS) {
 				countryService.cadastrar(c, "banco");
 			}
-		}
-
-		if (!STATES.isEmpty()) {
+		} else if (!STATES.isEmpty()) {
 			for (State s : STATES) {
 				stateService.cadastrar(s, "banco");
 			}
-		}
-
-		if (!CITYS.isEmpty()) {
+		} else if (!CITYS.isEmpty()) {
 			for (City c : CITYS) {
 				cityService.cadastrar(c, "banco");
 			}
-		}
-
-		if (!NEIG.isEmpty()) {
+		} else if (!NEIG.isEmpty()) {
 			for (Neighborhood n : NEIG) {
 				neighborhoodService.cadastrar(n, "banco");
 			}
-		}
-
-		if (!COMPA.isEmpty()) {
+		} else if (!COMPA.isEmpty()) {
 			for (Company c : COMPA) {
 				companyService.cadastrar(c, "banco");
 			}

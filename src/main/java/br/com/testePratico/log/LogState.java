@@ -12,6 +12,7 @@ import br.com.testePratico.model.State;
 public class LogState {
 	LogConfig lc = new LogConfig();
 
+	// SALVA OS DADOS NO ARQUIVO DE LOG
 	public void salvar(State state, String entity) {
 		FileWriter arqui;
 
@@ -23,11 +24,11 @@ public class LogState {
 			if (STATES.isEmpty()) {
 				arqui.write("id:" + state.getId() + "#");
 				arqui.write("name:" + state.getName() + "#");
-				arqui.write("country:" + state.getCountry().getId());				
+				arqui.write("country:" + state.getCountry().getId());
 			} else {
 				arqui.write("\n" + "id:" + state.getId() + "#");
 				arqui.write("name:" + state.getName() + "#");
-				arqui.write("country:" + state.getCountry().getId());				
+				arqui.write("country:" + state.getCountry().getId());
 			}
 
 			arqui.close();
@@ -55,6 +56,7 @@ public class LogState {
 		return STATES;
 	}
 
+	// ALTERA DADOS NO ARQUIVO DE LOG
 	public void alterar(State state, String entity) {
 		BufferedReader bf = lc.get_Alter_config(entity);
 		List<String> LINHAS = new ArrayList<>();
@@ -79,6 +81,7 @@ public class LogState {
 		}
 	}
 
+	// CONVERTE UMA LINHA DO ARQUIVO PARA OBJETO
 	public State toObjetoState(String linha) {
 		State s = new State();
 
@@ -90,7 +93,7 @@ public class LogState {
 			String FK = separado[2];
 
 			String[] separaID = ID.split(":");
-			String[] separaName = NAME.split(":");			
+			String[] separaName = NAME.split(":");
 			String[] separaFk = FK.split(":");
 
 			s.setId(Long.valueOf(separaID[1]));
@@ -102,6 +105,7 @@ public class LogState {
 		return s;
 	}
 
+	// CONVERTE UM OBJETO PARA UMA LINHA A SER SALVA OU ALTERADA NO ARQUIVO
 	public String linhaAlteradaState(State s) {
 		String linha = "id:" + s.getId();
 		linha += "#" + "name:" + s.getName();

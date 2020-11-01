@@ -12,6 +12,7 @@ import br.com.testePratico.model.State;
 public class LogCity {
 	LogConfig lc = new LogConfig();
 
+	// SALVA OS DADOS NO ARQUIVO DE LOG
 	public void salvar(City city, String entity) {
 		FileWriter arqui;
 
@@ -55,12 +56,13 @@ public class LogCity {
 		return CITYS;
 	}
 
+	// ALTERA DADOS NO ARQUIVO DE LOG
 	public void alterar(City city, String entity) {
 		System.out.println("ALTERAR");
 		BufferedReader bf = lc.get_Alter_config(entity);
 		List<String> LINHAS = new ArrayList<>();
 		String linha, linhaAlterada, alteracaoAtual;
-		
+
 		System.out.println("city id: " + city.getId());
 		try {
 			while (bf.ready()) {
@@ -82,6 +84,7 @@ public class LogCity {
 		}
 	}
 
+	// CONVERTE UMA LINHA DO ARQUIVO PARA OBJETO
 	public City toObjetoCity(String linha) {
 		City c = new City();
 
@@ -105,6 +108,7 @@ public class LogCity {
 		return c;
 	}
 
+	// CONVERTE UM OBJETO PARA UMA LINHA A SER SALVA OU ALTERADA NO ARQUIVO
 	public String linhaAlteradaCity(City c) {
 		String linha = "id:" + c.getId();
 		linha += "#" + "name:" + c.getName();

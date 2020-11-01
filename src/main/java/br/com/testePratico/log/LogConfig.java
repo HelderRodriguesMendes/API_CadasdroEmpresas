@@ -10,6 +10,7 @@ import java.util.List;
 
 public class LogConfig {
 
+	// DELETA O ARQUIVO DE LOG COM DADOS ANTIVOS E CRIA UM NOVO COM DADOS NOVOS
 	public void novoTxtAlterado(List<String> LINHAS, String entity) {
 
 		File deletar = salvar_deletar_config(entity);
@@ -45,16 +46,17 @@ public class LogConfig {
 			arq = new File("C:\\Users\\helde\\Documents\\Country.txt");
 		} else if (entity.equals("state")) {
 			arq = new File("C:\\Users\\helde\\Documents\\State.txt");
-		}else if (entity.equals("city")) {
+		} else if (entity.equals("city")) {
 			arq = new File("C:\\Users\\helde\\Documents\\City.txt");
-		}else if (entity.equals("neighborhood")) {
+		} else if (entity.equals("neighborhood")) {
 			arq = new File("C:\\Users\\helde\\Documents\\Neighborhood.txt");
-		}else if (entity.equals("company")) {
+		} else if (entity.equals("company")) {
 			arq = new File("C:\\Users\\helde\\Documents\\Company.txt");
 		}
 		return arq;
 	}
 
+	// IDENTIFICA O ARQUIVO A SER UTILIZADO
 	public BufferedReader get_Alter_config(String entity) {
 		FileReader lerArq = null;
 		BufferedReader bf = null;
@@ -64,11 +66,11 @@ public class LogConfig {
 				lerArq = new FileReader("C:\\Users\\helde\\Documents\\Country.txt");
 			} else if (entity.equals("state")) {
 				lerArq = new FileReader("C:\\Users\\helde\\Documents\\State.txt");
-			}else if (entity.equals("city")) {
+			} else if (entity.equals("city")) {
 				lerArq = new FileReader("C:\\Users\\helde\\Documents\\City.txt");
-			}else if (entity.equals("neighborhood")) {
+			} else if (entity.equals("neighborhood")) {
 				lerArq = new FileReader("C:\\Users\\helde\\Documents\\Neighborhood.txt");
-			}else if (entity.equals("company")) {
+			} else if (entity.equals("company")) {
 				lerArq = new FileReader("C:\\Users\\helde\\Documents\\Company.txt");
 			}
 

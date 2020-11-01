@@ -10,9 +10,10 @@ import br.com.testePratico.model.City;
 import br.com.testePratico.model.Neighborhood;
 
 public class LogNeighborhood {
-	
+
 	LogConfig lc = new LogConfig();
 
+	// SALVA OS DADOS NO ARQUIVO DE LOG
 	public void salvar(Neighborhood neighborhood, String entity) {
 		FileWriter arqui;
 
@@ -24,13 +25,13 @@ public class LogNeighborhood {
 			if (NEIG.isEmpty()) {
 				arqui.write("id:" + neighborhood.getId() + "#");
 				arqui.write("name:" + neighborhood.getName() + "#");
-				arqui.write("city:" + neighborhood.getCity().getId() + "#");				
-				arqui.write("ativo:" + neighborhood.getAtivo());				
+				arqui.write("city:" + neighborhood.getCity().getId() + "#");
+				arqui.write("ativo:" + neighborhood.getAtivo());
 			} else {
 				arqui.write("\n" + "id:" + neighborhood.getId() + "#");
 				arqui.write("name:" + neighborhood.getName() + "#");
-				arqui.write("city:" + neighborhood.getCity().getId() + "#");				
-				arqui.write("ativo:" + neighborhood.getAtivo());				
+				arqui.write("city:" + neighborhood.getCity().getId() + "#");
+				arqui.write("ativo:" + neighborhood.getAtivo());
 			}
 
 			arqui.close();
@@ -58,6 +59,7 @@ public class LogNeighborhood {
 		return NEIG;
 	}
 
+	// ALTERA DADOS NO ARQUIVO DE LOG
 	public void alterar(Neighborhood neighborhood, String entity) {
 		BufferedReader bf = lc.get_Alter_config(entity);
 		List<String> LINHAS = new ArrayList<>();
@@ -83,6 +85,7 @@ public class LogNeighborhood {
 		}
 	}
 
+	// CONVERTE UMA LINHA DO ARQUIVO PARA OBJETO
 	public Neighborhood toObjetoNeighborhood(String linha) {
 		Neighborhood n = new Neighborhood();
 
@@ -95,7 +98,7 @@ public class LogNeighborhood {
 			String ATIVO = separado[3];
 
 			String[] separaID = ID.split(":");
-			String[] separaName = NAME.split(":");			
+			String[] separaName = NAME.split(":");
 			String[] separaFk = FK.split(":");
 			String[] separaAtivo = ATIVO.split(":");
 
@@ -109,15 +112,17 @@ public class LogNeighborhood {
 		return n;
 	}
 
+	// CONVERTE UM OBJETO PARA UMA LINHA A SER SALVA OU ALTERADA NO ARQUIVO
 	public String linhaAlteradaNeighborhood(Neighborhood n) {
 		String linha = "id:" + n.getId();
 		linha += "#" + "name:" + n.getName();
 		linha += "#" + "city:" + n.getCity().getId();
 		linha += "#" + "ativo:" + n.getAtivo();
-		
+
 		return linha;
 	}
-	
+
+	// DESATIVA OU ATIVA UMA LINHA SALVA NO ARQUIVO
 	public void desabilitar_ativar(Long id, String entity, boolean ativar) {
 		BufferedReader bf = lc.get_Alter_config(entity);
 		List<String> LINHAS = new ArrayList<>();
@@ -129,9 +134,9 @@ public class LogNeighborhood {
 				Neighborhood n = toObjetoNeighborhood(linha);
 
 				if (n.getId() == id) {
-					if(!ativar) {
+					if (!ativar) {
 						n.setAtivo(false);
-					}else {
+					} else {
 						n.setAtivo(true);
 					}
 					alteracaoAtual = linhaAlteradaNeighborhood(n);

@@ -12,6 +12,7 @@ public class LogCountry {
 
 	LogConfig lc = new LogConfig();
 
+	// SALVA OS DADOS NO ARQUIVO DE LOG
 	public void salvar(Country country, String entity) {
 		FileWriter arqui;
 
@@ -20,11 +21,11 @@ public class LogCountry {
 
 			// MONTANDO A NOVA LINHA DO ARQUIVO
 			List<Country> COUNTRYS = getCountry("country");
-			
-			if(COUNTRYS.isEmpty()) {
+
+			if (COUNTRYS.isEmpty()) {
 				arqui.write("id:" + country.getId() + "#");
 				arqui.write("name:" + country.getName());
-			}else {
+			} else {
 				arqui.write("\n" + "id:" + country.getId() + "#");
 				arqui.write("name:" + country.getName());
 			}
@@ -53,9 +54,9 @@ public class LogCountry {
 		}
 		return COUNTRYS;
 	}
-	
-	//ALTERA DADOS NO ARQUIVO DE LOG
-	public void alterar(Country country, String entity) {		
+
+	// ALTERA DADOS NO ARQUIVO DE LOG
+	public void alterar(Country country, String entity) {
 		BufferedReader bf = lc.get_Alter_config(entity);
 		List<String> LINHAS = new ArrayList<>();
 		String linha, linhaAlterada, alteracaoAtual;
@@ -80,8 +81,8 @@ public class LogCountry {
 
 		}
 	}
-	
-	//CONVERTE UMA LINHA DO ARQUIVO PARA OBJETO
+
+	// CONVERTE UMA LINHA DO ARQUIVO PARA OBJETO
 	public Country toObjetoCountry(String linha) {
 		Country c = new Country();
 
@@ -89,7 +90,7 @@ public class LogCountry {
 			String[] separado = linha.split("#");
 
 			String ID = separado[0];
-			String NAME = separado[1];			
+			String NAME = separado[1];
 
 			String[] separaID = ID.split(":");
 			String[] separaName = NAME.split(":");
@@ -99,8 +100,8 @@ public class LogCountry {
 		}
 		return c;
 	}
-	
-	//CONVERTE UM OBJETO PARA UMA LINHA A SER SALVA OU ALTERADA NO ARQUIVO
+
+	// CONVERTE UM OBJETO PARA UMA LINHA A SER SALVA OU ALTERADA NO ARQUIVO
 	public String linhaAlteradaCountry(Country c) {
 		String linha = "id:" + c.getId();
 		linha += "#" + "name:" + c.getName();

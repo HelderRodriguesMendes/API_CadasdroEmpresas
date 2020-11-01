@@ -14,12 +14,13 @@ import br.com.testePratico.model.State;
 
 public class LogCompany {
 	LogConfig lc = new LogConfig();
-	
+
 	LogState logState = new LogState();
 	LogNeighborhood logNeighborhood = new LogNeighborhood();
 	LogCity logCity = new LogCity();
 	LogCountry logCountry = new LogCountry();
 
+	// SALVA OS DADOS NO ARQUIVO DE LOG
 	public void salvar(Company company, String entity) {
 		FileWriter arqui;
 
@@ -79,18 +80,19 @@ public class LogCompany {
 		return COMPANYS;
 	}
 
+	// ALTERA DADOS NO ARQUIVO DE LOG
 	public void alterar(Company company, String entity) {
 		BufferedReader bf = lc.get_Alter_config(entity);
 		List<String> LINHAS = new ArrayList<>();
 		String linha, linhaAlterada, alteracaoAtual;
-		
+
 		logCountry.alterar(company.getCountry(), "country");
 		logState.alterar(company.getState(), "state");
 		logCity.alterar(company.getCity(), "city");
 		System.out.println("city id: " + company.getNeighborhood().getCity().getId());
 		System.out.println("nome para altera LOG: " + company.getNeighborhood().getName());
 		logNeighborhood.alterar(company.getNeighborhood(), "neighborhood");
-		
+
 		try {
 			while (bf.ready()) {
 				linha = bf.readLine();
@@ -111,6 +113,7 @@ public class LogCompany {
 		}
 	}
 
+	// CONVERTE UMA LINHA DO ARQUIVO PARA OBJETO
 	public Company toObjetoCompany(String linha) {
 		Company c = new Company();
 
@@ -164,6 +167,7 @@ public class LogCompany {
 		return c;
 	}
 
+	// CONVERTE UM OBJETO PARA UMA LINHA A SER SALVA OU ALTERADA NO ARQUIVO
 	public String linhaAlteradaCompany(Company c) {
 		String linha = "id:" + c.getId();
 		linha += "#" + "tradeName:" + c.getTradeName();
@@ -180,6 +184,7 @@ public class LogCompany {
 		return linha;
 	}
 
+	// DESATIVA OU ATIVA UMA LINHA SALVA NO ARQUIVO
 	public void desabilitar_ativar(Long id, String entity, boolean ativar) {
 		BufferedReader bf = lc.get_Alter_config(entity);
 		List<String> LINHAS = new ArrayList<>();
@@ -191,9 +196,9 @@ public class LogCompany {
 				Company c = toObjetoCompany(linha);
 
 				if (c.getId() == id) {
-					if(!ativar) {
+					if (!ativar) {
 						c.setAtivo(false);
-					}else {
+					} else {
 						c.setAtivo(true);
 					}
 					alteracaoAtual = linhaAlteradaCompany(c);
