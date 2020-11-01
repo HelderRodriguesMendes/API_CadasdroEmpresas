@@ -64,7 +64,6 @@ public class LogState {
 			while (bf.ready()) {
 				linha = bf.readLine();
 				State s = toObjetoState(linha);
-
 				if (s.getId() == state.getId()) {
 					alteracaoAtual = linhaAlteradaState(state);
 					linhaAlterada = linha.replace(linha, alteracaoAtual);
@@ -107,7 +106,6 @@ public class LogState {
 		String linha = "id:" + s.getId();
 		linha += "#" + "name:" + s.getName();
 		linha += "#" + "country:" + s.getCountry().getId();
-
 		return linha;
 	}
 }

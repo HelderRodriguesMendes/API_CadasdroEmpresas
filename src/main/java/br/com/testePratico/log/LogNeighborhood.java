@@ -29,7 +29,7 @@ public class LogNeighborhood {
 			} else {
 				arqui.write("\n" + "id:" + neighborhood.getId() + "#");
 				arqui.write("name:" + neighborhood.getName() + "#");
-				arqui.write("state:" + neighborhood.getCity().getId() + "#");				
+				arqui.write("city:" + neighborhood.getCity().getId() + "#");				
 				arqui.write("ativo:" + neighborhood.getAtivo());				
 			}
 

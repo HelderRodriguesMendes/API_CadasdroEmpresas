@@ -34,14 +34,14 @@ public class CompanyController {
 
 		// BUSCA TODOS OS COUNTRYS CADASTRADOS E ATIVOS
 		@GetMapping("/findAllCompany")
-		public ResponseEntity<List<Company>> findAllCountry() {
+		public ResponseEntity<List<Company>> findAllCompany() {
 			List<Company> COMPANYS = companyService.findAllCompany();
 			return new ResponseEntity<List<Company>>(COMPANYS, HttpStatus.OK);
 		}
 
 		// BUSCA POR NOME OS COUNTRYS CADASTRADOS E ATIVOS
 		@GetMapping("/findAllCompany/name")
-		public ResponseEntity<List<Company>> companyName(@RequestParam String name) {
+		public ResponseEntity<List<Company>> company_Name(@RequestParam String name) {
 			List<Company> COMPANYS = companyService.companyName(name);
 			return new ResponseEntity<List<Company>>(COMPANYS, HttpStatus.OK);
 		}

@@ -14,6 +14,11 @@ import br.com.testePratico.model.State;
 
 public class LogCompany {
 	LogConfig lc = new LogConfig();
+	
+	LogState logState = new LogState();
+	LogNeighborhood logNeighborhood = new LogNeighborhood();
+	LogCity logCity = new LogCity();
+	LogCountry logCountry = new LogCountry();
 
 	public void salvar(Company company, String entity) {
 		FileWriter arqui;
@@ -78,7 +83,13 @@ public class LogCompany {
 		BufferedReader bf = lc.get_Alter_config(entity);
 		List<String> LINHAS = new ArrayList<>();
 		String linha, linhaAlterada, alteracaoAtual;
-
+		
+		logCountry.alterar(company.getCountry(), "country");
+		logState.alterar(company.getState(), "state");
+		logCity.alterar(company.getCity(), "city");
+		System.out.println("city id: " + company.getNeighborhood().getCity().getId());
+		logNeighborhood.alterar(company.getNeighborhood(), "neighborhood");
+		
 		try {
 			while (bf.ready()) {
 				linha = bf.readLine();

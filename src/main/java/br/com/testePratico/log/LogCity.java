@@ -56,10 +56,12 @@ public class LogCity {
 	}
 
 	public void alterar(City city, String entity) {
+		System.out.println("ALTERAR");
 		BufferedReader bf = lc.get_Alter_config(entity);
 		List<String> LINHAS = new ArrayList<>();
 		String linha, linhaAlterada, alteracaoAtual;
-
+		
+		System.out.println("city id: " + city.getId());
 		try {
 			while (bf.ready()) {
 				linha = bf.readLine();

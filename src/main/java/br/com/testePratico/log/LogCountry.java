@@ -56,10 +56,11 @@ public class LogCountry {
 		return COUNTRYS;
 	}
 
-	public void alterar(Country country, String entity) {
+	public void alterar(Country country, String entity) {		
 		BufferedReader bf = lc.get_Alter_config(entity);
 		List<String> LINHAS = new ArrayList<>();
 		String linha, linhaAlterada, alteracaoAtual;
+		System.out.println("country id: " + country.getId());
 
 		try {
 			while (bf.ready()) {

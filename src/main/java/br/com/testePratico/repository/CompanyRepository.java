@@ -15,7 +15,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 	// BUSCA TODOS OS COUNTRYS CADASTRADOS E ATIVOS
 		@Transactional
 		@Query(value = "select * from company where ativo = true limit 100", nativeQuery = true)
-		Optional<List<Company>> findAllCountry();
+		Optional<List<Company>> findAllCompany();
 
 		// BUSCA TODOS OS COUNTRYS CADASTRADOS E DESATIVADOS
 		@Transactional
@@ -24,8 +24,8 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
 		// PESQUISA COUNTRY POR NOME
 		@Transactional
-		@Query(value = "select * from company where ativo = true and name like %?1% limit 100", nativeQuery = true)
-		Optional<List<Company>> countryName(String name);
+		@Query(value = "select * from company where ativo = true and trade_Name like %?1% limit 100", nativeQuery = true)
+		Optional<List<Company>> companyName(String trade_Name);
 
 		// DESATIVA UM COUNTRY
 		@Transactional
@@ -38,10 +38,4 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 		@Modifying
 		@Query(value = "update company set ativo = true where id = ?1", nativeQuery = true)
 		void ativar(Long id);
-
-		// PESQUISA COUNTRY POR NOME
-		@Transactional
-		@Query(value = "select * from company where name = ?1", nativeQuery = true)
-		Optional<Company> verificarCompany(String name);
-
 }
