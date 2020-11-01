@@ -141,12 +141,21 @@ public class CompanyService {
 					company.getNeighborhood().setCity(company.getCity());
 				}
 				
-				neighborhoodSave = neighborhoodRepository.save(company.getNeighborhood());
-				logNeighborhood.alterar(neighborhoodSave, "neighborhood");
-			}
+				ID = String.valueOf(company.getNeighborhood().getId());
+				if (ID.equals("") || company.getNeighborhood().getId() == null) {
+					company.getNeighborhood().setCity(citySave);
+					neighborhoodSave = neighborhoodRepository.save(company.getNeighborhood());
+					logNeighborhood.salvar(neighborhoodSave, "neighborhood");
+					company.setNeighborhood(neighborhoodSave);
+				}
 
+			}
+			
+			System.out.println("nome para altera 1: " + company.getNeighborhood().getName());
+			companySave = null;
 			companySave = companyRepository.save(company);
-			companySave.getNeighborhood().setCity(company.getCity());
+			companySave.getNeighborhood().setName(company.getNeighborhood().getName());
+			companySave.getNeighborhood().setCity(company.getCity());			
 			
 			if (status.equals("cadastrar")) {
 				logCompany.salvar(companySave, "company");
@@ -186,15 +195,16 @@ public class CompanyService {
 
 	// DESATIVAR OU ATIVAR UM COUNTRY
 	public Boolean desabilitar_ativar(Long id, boolean ativar) {
-
+		
+		Company neighborhood = companyRepository.findByNeighborhood(id).orElseThrow(() -> new NotFound("Registros não encontrados"));
 		if (!ativar) {
 			companyRepository.desativar(id);
 			logCompany.desabilitar_ativar(id, "company", false);
-			neighborhoodService.desabilitar_ativar(id, false);
+			neighborhoodService.desabilitar_ativar(neighborhood.getNeighborhood().getId(), false);
 		} else {
 			companyRepository.ativar(id);
 			logCompany.desabilitar_ativar(id, "company", true);
-			neighborhoodService.desabilitar_ativar(id, true);
+			neighborhoodService.desabilitar_ativar(neighborhood.getNeighborhood().getId(), true);
 		}
 		return true;
 	}

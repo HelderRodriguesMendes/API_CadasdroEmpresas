@@ -26,6 +26,10 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 		@Transactional
 		@Query(value = "select * from company where ativo = true and trade_Name like %?1% limit 100", nativeQuery = true)
 		Optional<List<Company>> companyName(String trade_Name);
+		
+		@Transactional
+		@Query(value = "select * from company where ID = ?1", nativeQuery = true)
+		Optional<Company> findByNeighborhood(Long id);
 
 		// DESATIVA UM COUNTRY
 		@Transactional

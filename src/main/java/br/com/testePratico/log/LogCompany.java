@@ -88,6 +88,7 @@ public class LogCompany {
 		logState.alterar(company.getState(), "state");
 		logCity.alterar(company.getCity(), "city");
 		System.out.println("city id: " + company.getNeighborhood().getCity().getId());
+		System.out.println("nome para altera LOG: " + company.getNeighborhood().getName());
 		logNeighborhood.alterar(company.getNeighborhood(), "neighborhood");
 		
 		try {
