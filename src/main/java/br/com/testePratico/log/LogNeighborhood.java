@@ -42,7 +42,7 @@ public class LogNeighborhood {
 
 	// BUSCA TODOS OS DADOS SALVOS NO ARQUIVO
 	public List<Neighborhood> getNeighborhood(String entity) {
-		BufferedReader bf = lc.get_Alter_config(entity);
+		BufferedReader bf = lc.configCaminho_Pasta(entity);
 		List<Neighborhood> NEIG = new ArrayList<>();
 		String linha;
 
@@ -61,7 +61,7 @@ public class LogNeighborhood {
 
 	// ALTERA DADOS NO ARQUIVO DE LOG
 	public void alterar(Neighborhood neighborhood, String entity) {
-		BufferedReader bf = lc.get_Alter_config(entity);
+		BufferedReader bf = lc.configCaminho_Pasta(entity);
 		List<String> LINHAS = new ArrayList<>();
 		String linha, linhaAlterada, alteracaoAtual;
 
@@ -124,7 +124,7 @@ public class LogNeighborhood {
 
 	// DESATIVA OU ATIVA UMA LINHA SALVA NO ARQUIVO
 	public void desabilitar_ativar(Long id, String entity, boolean ativar) {
-		BufferedReader bf = lc.get_Alter_config(entity);
+		BufferedReader bf = lc.configCaminho_Pasta(entity);
 		List<String> LINHAS = new ArrayList<>();
 		String linha, linhaAlterada, alteracaoAtual;
 

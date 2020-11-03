@@ -38,7 +38,7 @@ public class LogCountry {
 
 	// BUSCA TODOS OS DADOS SALVOS NO ARQUIVO
 	public List<Country> getCountry(String entity) {
-		BufferedReader bf = lc.get_Alter_config(entity);
+		BufferedReader bf = lc.configCaminho_Pasta(entity);
 		List<Country> COUNTRYS = new ArrayList<>();
 		String linha;
 
@@ -57,7 +57,7 @@ public class LogCountry {
 
 	// ALTERA DADOS NO ARQUIVO DE LOG
 	public void alterar(Country country, String entity) {
-		BufferedReader bf = lc.get_Alter_config(entity);
+		BufferedReader bf = lc.configCaminho_Pasta(entity);
 		List<String> LINHAS = new ArrayList<>();
 		String linha, linhaAlterada, alteracaoAtual;
 		System.out.println("country id: " + country.getId());

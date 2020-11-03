@@ -39,7 +39,7 @@ public class LogCity {
 
 	// BUSCA TODOS OS DADOS SALVOS NO ARQUIVO
 	public List<City> getCity(String entity) {
-		BufferedReader bf = lc.get_Alter_config(entity);
+		BufferedReader bf = lc.configCaminho_Pasta(entity);
 		List<City> CITYS = new ArrayList<>();
 		String linha;
 
@@ -59,7 +59,7 @@ public class LogCity {
 	// ALTERA DADOS NO ARQUIVO DE LOG
 	public void alterar(City city, String entity) {
 		System.out.println("ALTERAR");
-		BufferedReader bf = lc.get_Alter_config(entity);
+		BufferedReader bf = lc.configCaminho_Pasta(entity);
 		List<String> LINHAS = new ArrayList<>();
 		String linha, linhaAlterada, alteracaoAtual;
 

@@ -57,21 +57,22 @@ public class LogConfig {
 	}
 
 	// IDENTIFICA O ARQUIVO A SER UTILIZADO
-	public BufferedReader get_Alter_config(String entity) {
+	public BufferedReader configCaminho_Pasta(String entity) {
 		FileReader lerArq = null;
 		BufferedReader bf = null;
-
+		
+		String caminhoPasta = "C:\\Users\\helde\\Documents\\";
 		try {
 			if (entity.equals("country")) {
-				lerArq = new FileReader("C:\\Users\\helde\\Documents\\Country.txt");
+				lerArq = new FileReader(caminhoPasta + "Country.txt");
 			} else if (entity.equals("state")) {
-				lerArq = new FileReader("C:\\Users\\helde\\Documents\\State.txt");
+				lerArq = new FileReader(caminhoPasta + "State.txt");
 			} else if (entity.equals("city")) {
-				lerArq = new FileReader("C:\\Users\\helde\\Documents\\City.txt");
+				lerArq = new FileReader(caminhoPasta + "City.txt");
 			} else if (entity.equals("neighborhood")) {
-				lerArq = new FileReader("C:\\Users\\helde\\Documents\\Neighborhood.txt");
+				lerArq = new FileReader(caminhoPasta + "Neighborhood.txt");
 			} else if (entity.equals("company")) {
-				lerArq = new FileReader("C:\\Users\\helde\\Documents\\Company.txt");
+				lerArq = new FileReader(caminhoPasta + "Company.txt");
 			}
 
 			bf = new BufferedReader(lerArq);

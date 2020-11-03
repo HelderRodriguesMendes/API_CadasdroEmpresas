@@ -39,7 +39,7 @@ public class LogState {
 
 	// BUSCA TODOS OS DADOS SALVOS NO ARQUIVO
 	public List<State> getState(String entity) {
-		BufferedReader bf = lc.get_Alter_config(entity);
+		BufferedReader bf = lc.configCaminho_Pasta(entity);
 		List<State> STATES = new ArrayList<>();
 		String linha;
 
@@ -58,7 +58,7 @@ public class LogState {
 
 	// ALTERA DADOS NO ARQUIVO DE LOG
 	public void alterar(State state, String entity) {
-		BufferedReader bf = lc.get_Alter_config(entity);
+		BufferedReader bf = lc.configCaminho_Pasta(entity);
 		List<String> LINHAS = new ArrayList<>();
 		String linha, linhaAlterada, alteracaoAtual;
 
