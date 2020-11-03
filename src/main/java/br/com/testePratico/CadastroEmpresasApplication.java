@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.testePratico.log.LogCity;
 import br.com.testePratico.log.LogCompany;
+import br.com.testePratico.log.LogConfig;
 import br.com.testePratico.log.LogCountry;
 import br.com.testePratico.log.LogNeighborhood;
 import br.com.testePratico.log.LogState;
@@ -59,20 +60,22 @@ public class CadastroEmpresasApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
+		LogConfig config = new LogConfig();
+		
 		// CRIA OS ARQUIVOS EM BRANCO PARA NÃO DAR ERRO NO getCountry
-		File arqCountry = new File("C:\\Users\\helde\\Documents\\Country.txt");
+		File arqCountry = config.salvar_deletar_config("country");
 		fw = new FileWriter(arqCountry, true);
 
-		File arqState = new File("C:\\Users\\helde\\Documents\\State.txt");
+		File arqState = config.salvar_deletar_config("state");
 		fw = new FileWriter(arqState, true);
 
-		File arqCity = new File("C:\\Users\\helde\\Documents\\City.txt");
+		File arqCity = config.salvar_deletar_config("city");
 		fw = new FileWriter(arqCity, true);
 
-		File arqNeighborhood = new File("C:\\Users\\helde\\Documents\\Neighborhood.txt");
+		File arqNeighborhood = config.salvar_deletar_config("neighborhood");
 		fw = new FileWriter(arqNeighborhood, true);
 
-		File arqCompany = new File("C:\\Users\\helde\\Documents\\Company.txt");
+		File arqCompany = config.salvar_deletar_config("company");
 		fw = new FileWriter(arqCompany, true);
 
 		// PEGA TODOS OS DADOS SALVOS NOS ARQUIVOS DE LOG
