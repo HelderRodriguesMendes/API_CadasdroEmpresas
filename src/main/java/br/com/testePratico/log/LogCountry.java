@@ -17,7 +17,7 @@ public class LogCountry {
 		FileWriter arqui;
 
 		try {
-			arqui = new FileWriter(lc.salvar_deletar_config(entity), true);
+			arqui = new FileWriter(lc.configCaminhoPasta(entity), true);
 
 			// MONTANDO A NOVA LINHA DO ARQUIVO
 			List<Country> COUNTRYS = getCountry("country");

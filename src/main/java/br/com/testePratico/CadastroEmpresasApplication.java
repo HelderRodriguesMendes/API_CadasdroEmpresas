@@ -63,19 +63,19 @@ public class CadastroEmpresasApplication implements CommandLineRunner {
 		LogConfig config = new LogConfig();
 		
 		// CRIA OS ARQUIVOS EM BRANCO PARA NÃO DAR ERRO NO getCountry
-		File arqCountry = config.salvar_deletar_config("country");
+		File arqCountry = config.configCaminhoPasta("country");
 		fw = new FileWriter(arqCountry, true);
 
-		File arqState = config.salvar_deletar_config("state");
+		File arqState = config.configCaminhoPasta("state");
 		fw = new FileWriter(arqState, true);
 
-		File arqCity = config.salvar_deletar_config("city");
+		File arqCity = config.configCaminhoPasta("city");
 		fw = new FileWriter(arqCity, true);
 
-		File arqNeighborhood = config.salvar_deletar_config("neighborhood");
+		File arqNeighborhood = config.configCaminhoPasta("neighborhood");
 		fw = new FileWriter(arqNeighborhood, true);
 
-		File arqCompany = config.salvar_deletar_config("company");
+		File arqCompany = config.configCaminhoPasta("company");
 		fw = new FileWriter(arqCompany, true);
 
 		// PEGA TODOS OS DADOS SALVOS NOS ARQUIVOS DE LOG

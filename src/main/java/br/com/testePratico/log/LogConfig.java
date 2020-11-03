@@ -13,10 +13,10 @@ public class LogConfig {
 	// DELETA O ARQUIVO DE LOG COM DADOS ANTIVOS E CRIA UM NOVO COM DADOS NOVOS
 	public void novoTxtAlterado(List<String> LINHAS, String entity) {
 
-		File deletar = salvar_deletar_config(entity);
+		File deletar = configCaminhoPasta(entity);
 		deletar.delete();
 
-		File TXTalterado = salvar_deletar_config(entity);
+		File TXTalterado = configCaminhoPasta(entity);
 
 		FileWriter arqui;
 
@@ -39,19 +39,19 @@ public class LogConfig {
 	}
 
 	// IDENTIFICA O ARQUIVO A SER UTILIZADO
-	public File salvar_deletar_config(String entity) {
+	public File configCaminhoPasta(String entity) {
 		File arq = null;
-
+		String caminhoPasta = "C:\\Users\\helde\\Documents\\";
 		if (entity.equals("country")) {
-			arq = new File("C:\\Users\\helde\\Documents\\Country.txt");
+			arq = new File(caminhoPasta + "Country.txt");
 		} else if (entity.equals("state")) {
-			arq = new File("C:\\Users\\helde\\Documents\\State.txt");
+			arq = new File(caminhoPasta + "State.txt");
 		} else if (entity.equals("city")) {
-			arq = new File("C:\\Users\\helde\\Documents\\City.txt");
+			arq = new File(caminhoPasta + "City.txt");
 		} else if (entity.equals("neighborhood")) {
-			arq = new File("C:\\Users\\helde\\Documents\\Neighborhood.txt");
+			arq = new File(caminhoPasta + "Neighborhood.txt");
 		} else if (entity.equals("company")) {
-			arq = new File("C:\\Users\\helde\\Documents\\Company.txt");
+			arq = new File(caminhoPasta + "Company.txt");
 		}
 		return arq;
 	}
