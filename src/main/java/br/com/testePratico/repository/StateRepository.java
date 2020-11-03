@@ -28,4 +28,9 @@ public interface StateRepository extends JpaRepository<State, Long> {
 	@Query(value = "select * from state where name like %?1% order by name limit 100", nativeQuery = true)
 	Optional<List<State>> stateName(String name);
 
+	// PESQUISA STATE POR COUNTRY
+	@Transactional
+	@Query(value = "select s.id, s.name from state s, country c where s.COUNTRY_ID = c.id and c.name = ?1 order by name limit 100", nativeQuery = true)
+	Optional<List<State>> stateNameCountry(String name);
+
 }

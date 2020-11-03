@@ -45,6 +45,13 @@ public class StateController {
 		return new ResponseEntity<List<State>>(STATES, HttpStatus.OK);
 	}
 
+	// BUSCA POR COUNTRY OS STATES CADASTRADOS E ATIVOS
+	@GetMapping("/findAllStateCountry/name")
+	public ResponseEntity<List<State>> stateNameCountry(@RequestParam String name) {
+		List<State> STATES = stateService.stateNameCountry(name);
+		return new ResponseEntity<List<State>>(STATES, HttpStatus.OK);
+	}
+
 	// ALTERA UM STATE
 	@PutMapping("/alterar/{id}")
 	public ResponseEntity<Boolean> alterar(@Valid @RequestBody State state, @PathVariable Long id) {

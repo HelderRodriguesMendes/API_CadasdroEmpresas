@@ -87,19 +87,23 @@ public class CadastroEmpresasApplication implements CommandLineRunner {
 			for (Country c : COUNTRYS) {
 				countryService.cadastrar(c, "banco");
 			}
-		} else if (!STATES.isEmpty()) {
+		}
+		if (!STATES.isEmpty()) {
 			for (State s : STATES) {
 				stateService.cadastrar(s, "banco");
 			}
-		} else if (!CITYS.isEmpty()) {
+		}
+		if (!CITYS.isEmpty()) {
 			for (City c : CITYS) {
 				cityService.cadastrar(c, "banco");
 			}
-		} else if (!NEIG.isEmpty()) {
+		}
+		if (!NEIG.isEmpty()) {
 			for (Neighborhood n : NEIG) {
 				neighborhoodService.cadastrar(n, "banco");
 			}
-		} else if (!COMPA.isEmpty()) {
+		}
+		if (!COMPA.isEmpty()) {
 			for (Company c : COMPA) {
 				companyService.cadastrar(c, "banco");
 			}

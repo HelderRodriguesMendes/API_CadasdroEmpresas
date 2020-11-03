@@ -40,8 +40,15 @@ public class CityController {
 
 	// BUSCA POR NOME AS CITYS CADASTRADAS
 	@GetMapping("/findAllCity/name")
-	public ResponseEntity<List<City>> stateName(@RequestParam String name) {
+	public ResponseEntity<List<City>> cityName(@RequestParam String name) {
 		List<City> CITYS = cityService.cityName(name);
+		return new ResponseEntity<List<City>>(CITYS, HttpStatus.OK);
+	}
+
+	// BUSCA AS CITYS POR STATES
+	@GetMapping("/findAllCityState/name")
+	public ResponseEntity<List<City>> cityNameState(@RequestParam String name) {
+		List<City> CITYS = cityService.cityNameState(name);
 		return new ResponseEntity<List<City>>(CITYS, HttpStatus.OK);
 	}
 
