@@ -50,6 +50,7 @@ public class LogState {
 				s = toObjetoState(linha);
 				STATES.add(s);
 			}
+			bf.close();
 		} catch (IOException e) {
 
 		}

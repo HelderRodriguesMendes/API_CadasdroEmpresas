@@ -53,6 +53,7 @@ public class LogNeighborhood {
 				n = toObjetoNeighborhood(linha);
 				NEIG.add(n);
 			}
+			bf.close();
 		} catch (IOException e) {
 
 		}

@@ -50,9 +50,10 @@ public class LogCity {
 				c = toObjetoCity(linha);
 				CITYS.add(c);
 			}
+			bf.close();
 		} catch (IOException e) {
 
-		}
+		}		
 		return CITYS;
 	}
 

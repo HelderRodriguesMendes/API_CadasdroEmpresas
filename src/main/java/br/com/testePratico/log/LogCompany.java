@@ -74,6 +74,7 @@ public class LogCompany {
 				c = toObjetoCompany(linha);
 				COMPANYS.add(c);
 			}
+			bf.close();
 		} catch (IOException e) {
 
 		}

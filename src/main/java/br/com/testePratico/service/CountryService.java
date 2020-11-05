@@ -60,8 +60,15 @@ public class CountryService {
 
 	// BUSCA POR NOME OS COUNTRYS CADASTRADOS
 	public List<Country> countryName(String name) {
-		List<Country> COUNTRYS = countryRepository.countryName(name)
+		List<Country> COUNTRYS = countryRepository.countryName(name)				
 				.orElseThrow(() -> new NotFound("Registros não encontrados"));
+		if(COUNTRYS.isEmpty()) {
+			System.out.println("LISTA NULL");
+		}else {
+			System.out.println("LISTA N NULL");
+		}
 		return COUNTRYS;
 	}
+	
+	
 }

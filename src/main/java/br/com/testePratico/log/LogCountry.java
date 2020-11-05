@@ -49,6 +49,7 @@ public class LogCountry {
 				c = toObjetoCountry(linha);
 				COUNTRYS.add(c);
 			}
+			bf.close();
 		} catch (IOException e) {
 
 		}

@@ -53,6 +53,7 @@ public class LogConfig {
 		} else if (entity.equals("company")) {
 			arq = new File(caminhoPasta + "Company.txt");
 		}
+		
 		return arq;
 	}
 

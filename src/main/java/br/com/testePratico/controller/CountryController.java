@@ -42,6 +42,7 @@ public class CountryController {
 	// BUSCA POR NOME OS COUNTRYS CADASTRADOS
 	@GetMapping("/findAllCountry/name")
 	public ResponseEntity<List<Country>> countryName(@RequestParam String name) {
+		System.out.println("nome recebido: " + name);
 		List<Country> COUNTRYS = countryService.countryName(name);
 		return new ResponseEntity<List<Country>>(COUNTRYS, HttpStatus.OK);
 	}
