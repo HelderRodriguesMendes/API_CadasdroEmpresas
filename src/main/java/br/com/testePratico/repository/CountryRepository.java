@@ -25,7 +25,7 @@ public interface CountryRepository extends JpaRepository<Country, Long> {
 
 	// PESQUISA COUNTRY POR NOME
 	@Transactional
-	@Query(value = "select * from country where name = ?1 order by name", nativeQuery = true)
+	@Query(value = "select * from country where name = ?1", nativeQuery = true)
 	Optional<Country> verificarCountry(String name);
 
 }
