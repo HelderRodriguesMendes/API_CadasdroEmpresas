@@ -70,6 +70,11 @@ public class CityService {
 						// SALVANDO NO LOG
 						ls.salvar(stateSave, "state");
 						city_recebida.setState(stateSave);
+					}else {
+						//CASO O ESTADO SEJA SELECIONADO PELO COMBOBOX, E ESSE ESTADO JA SEJA CADASTRADO
+						// ELE SERA RECEBICO NA API SEM O SEU ID, ENTAO AO VEIRICAR QUE ELE JA É CADASTRADO
+						// ALTERA O QUE RECEBEU SEM ID, PELO OQUE FOI BUSCADO NO BANCO
+						city_recebida.setState(stateOptional.get());
 					}
 				}
 
