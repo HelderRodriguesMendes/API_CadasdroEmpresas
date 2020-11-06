@@ -23,13 +23,15 @@ public class StateService {
 	@Autowired
 	CountryRepository countryRepository;
 
+	@Autowired
+	CountryService countryService;
+
 	LogState ls = new LogState();
 	LogCountry lCoun = new LogCountry();
+	State stateSave = new State();
 
 	// SALVA UM STATE NO BANCO E NO ARQUIVO DE LOG
 	public Boolean cadastrar(State state_recebido, String status) {
-		State stateSave = null;
-		Country countrySave = null;
 		boolean RESPOSTA = false;
 
 		// VERIFICA SE O STATE JÁ ESTA CADASTRADO
@@ -40,16 +42,8 @@ public class StateService {
 			if (s.isEmpty()) {
 				Country country_recebido = state_recebido.getCountry();
 
-				// VERIFICA SE O PAIS DO ESTADO JA ESTA CADASTRADO OU NAO
-				Optional<Country> countryOptional = countryRepository.verificarCountry(country_recebido.getName());
-
-				// SE O PAIS NAO ESTIVAR CADASTRADO, JA CADASTRA O PAIS E O ESTADO
-				if (countryOptional.isEmpty()) {
-					countrySave = countryRepository.save(country_recebido);
-					// SALVANDO NO LOG
-					lCoun.salvar(countrySave, "country");
-					state_recebido.setCountry(countrySave);
-				}
+				// VERIFICANDO SE A FK ESTA SALVA OU NAO, CASO NÃO: ELA É SALVA
+				state_recebido.setCountry(countryService.verificarCadastro(country_recebido));
 
 				stateSave = stateRepository.save(state_recebido);
 
@@ -97,5 +91,18 @@ public class StateService {
 			}
 		}
 		return STATES;
+	}
+
+	public State verificarCadastro(State state) {
+
+		Optional<State> stateBanco = stateRepository.verificarState(state.getName());
+
+		if (stateBanco.isEmpty()) {
+			stateSave = stateRepository.save(state);
+			ls.salvar(stateSave, "state");
+		} else {
+			stateSave = stateBanco.get();
+		}
+		return stateSave;
 	}
 }

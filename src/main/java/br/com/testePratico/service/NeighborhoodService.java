@@ -7,8 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.testePratico.exception.NotFound;
+import br.com.testePratico.log.LogCity;
+import br.com.testePratico.log.LogCountry;
 import br.com.testePratico.log.LogNeighborhood;
+import br.com.testePratico.log.LogState;
+import br.com.testePratico.model.City;
+import br.com.testePratico.model.Country;
 import br.com.testePratico.model.Neighborhood;
+import br.com.testePratico.model.State;
 import br.com.testePratico.repository.NeighborhoodRepository;
 
 @Service
@@ -16,21 +22,49 @@ public class NeighborhoodService {
 
 	@Autowired
 	NeighborhoodRepository neighborhoodRepository;
+	
+	@Autowired
+	CountryService countryService;
+
+	@Autowired
+	StateService stateService;
+	
+	@Autowired
+	CityService cityService;
 
 	LogNeighborhood ln = new LogNeighborhood();
+	LogCity lc = new LogCity();
+	LogState ls = new LogState();
+	LogCountry lCoun = new LogCountry();
+	Neighborhood neighborhoodSave = new Neighborhood();
 
 	// SALVA UMA NEIGHBORHOOR NO BANCO E NO ARQUIVO DE LOG
-	public Boolean cadastrar(Neighborhood neighborhood, String status) {
-		Neighborhood neighborhoodSave = null;
+	public Boolean cadastrar(Neighborhood neighborhood_recebida, String status) {		
+		Country countrySave = null;
+		State stateSave = null;
+		City citySave = null;
 		boolean RESPOSTA = false;
 
 		// VERIFICA SE O STATE JÁ ESTA CADASTRADO E SE ESTA ATIVO OU NÃO
 		if (status.equals("cadastrar")) {
-			Optional<Neighborhood> n = neighborhoodRepository.verificarNeighborhood(neighborhood.getName());
+			Optional<Neighborhood> n = neighborhoodRepository.verificarNeighborhood(neighborhood_recebida.getName());
 
 			// SE NÃO ESTIVER CADASTRADO
 			if (n.isEmpty()) {
-				neighborhoodSave = neighborhoodRepository.save(neighborhood);
+
+				City city_recebida = neighborhood_recebida.getCity();
+				State state_recebido = city_recebida.getState();
+				Country country_recebido = state_recebido.getCountry();
+				
+				//VERIFICANDO SE AS FKS ESTAO SALVAS OU NAO, CASO NÃO: ELAS SAO SALVAS
+				countrySave = countryService.verificarCadastro(country_recebido);
+				state_recebido.setCountry(countrySave);
+				stateSave = stateService.verificarCadastro(state_recebido);
+				city_recebida.setState(stateSave);
+				citySave = cityService.verificarCadastro(city_recebida);
+				neighborhood_recebida.setCity(citySave);
+				
+				neighborhoodSave = neighborhoodRepository.save(neighborhood_recebida);
 
 				// SALVANDO DADOS NO ARQUIVO DE LOG
 				ln.salvar(neighborhoodSave, "neighborhood");
@@ -42,9 +76,9 @@ public class NeighborhoodService {
 
 			// SALVA OS DADOS QUE ESTAO NO LOG AO INICIAR A API
 		} else if (status.equals("banco")) {
-			neighborhoodRepository.save(neighborhood);
+			neighborhoodRepository.save(neighborhood_recebida);
 		} else if (status.equals("alterar")) {
-			neighborhoodSave = neighborhoodRepository.save(neighborhood);
+			neighborhoodSave = neighborhoodRepository.save(neighborhood_recebida);
 			ln.alterar(neighborhoodSave, "neighborhood");
 			RESPOSTA = true;
 		}
@@ -76,5 +110,18 @@ public class NeighborhoodService {
 			ln.desabilitar_ativar(id, "neighborhood", true);
 		}
 		return true;
+	}
+	
+	public Neighborhood verificarCadastro(Neighborhood neighborhood) {
+
+		Optional<Neighborhood> neighborhoodBanco = neighborhoodRepository.verificarNeighborhood(neighborhood.getName());
+
+		if (neighborhoodBanco.isEmpty()) {
+			neighborhoodSave = neighborhoodRepository.save(neighborhood);
+			ln.salvar(neighborhoodSave, "neighborhood");
+		} else {
+			neighborhoodSave = neighborhoodBanco.get();
+		}
+		return neighborhoodSave;
 	}
 }

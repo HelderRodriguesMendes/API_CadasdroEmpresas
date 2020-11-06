@@ -18,10 +18,10 @@ public class CountryService {
 	CountryRepository countryRepository;
 
 	LogCountry l = new LogCountry();
+	Country countrySave = new Country();
 
 	// SALVA UM COUNTRY NO BANCO E NO ARQUIVO DE LOG
 	public Boolean cadastrar(Country country, String status) {
-		Country countrySave = null;
 		boolean RESPOSTA = false;
 
 		// VERIFICA SE O COUNTRY JÁ ESTA CADASTRADO
@@ -60,15 +60,26 @@ public class CountryService {
 
 	// BUSCA POR NOME OS COUNTRYS CADASTRADOS
 	public List<Country> countryName(String name) {
-		List<Country> COUNTRYS = countryRepository.countryName(name)				
+		List<Country> COUNTRYS = countryRepository.countryName(name)
 				.orElseThrow(() -> new NotFound("Registros não encontrados"));
-		if(COUNTRYS.isEmpty()) {
+		if (COUNTRYS.isEmpty()) {
 			System.out.println("LISTA NULL");
-		}else {
+		} else {
 			System.out.println("LISTA N NULL");
 		}
 		return COUNTRYS;
 	}
-	
-	
+
+	public Country verificarCadastro(Country country) {
+
+		Optional<Country> countryBanco = countryRepository.verificarCountry(country.getName());
+
+		if (countryBanco.isEmpty()) {
+			countrySave = countryRepository.save(country);
+			l.salvar(countrySave, "country");
+		} else {
+			countrySave = countryBanco.get();
+		}
+		return countrySave;
+	}
 }

@@ -15,7 +15,6 @@ import br.com.testePratico.model.City;
 import br.com.testePratico.model.Country;
 import br.com.testePratico.model.State;
 import br.com.testePratico.repository.CityRepository;
-import br.com.testePratico.repository.CountryRepository;
 import br.com.testePratico.repository.StateRepository;
 
 @Service
@@ -27,17 +26,21 @@ public class CityService {
 	StateRepository stateRepository;
 
 	@Autowired
-	CountryRepository countryRepository;
+	CountryService countryService;
+
+	@Autowired
+	StateService stateService;
 
 	LogCity lc = new LogCity();
 	LogState ls = new LogState();
 	LogCountry lCoun = new LogCountry();
 
+	City citySave = new City();
+
 	// SALVA UMA CITY NO BANCO E NO ARQUIVO DE LOG
 	public Boolean cadastrar(City city_recebida, String status) {
 		Country countrySave = null;
 		State stateSave = null;
-		City citySave = null;
 		boolean RESPOSTA = false;
 
 		// VERIFICA SE O STATE JÁ ESTA CADASTRADO
@@ -48,35 +51,11 @@ public class CityService {
 				State state_recebido = city_recebida.getState();
 				Country country_recebido = state_recebido.getCountry();
 
-				// VERIFICA SE O PAIS DA CIDADE JA ESTA CADASTRADO OU NAO
-				Optional<Country> countryOptional = countryRepository.verificarCountry(country_recebido.getName());
-
-				// SE O PAIS NAO ESTIVAR CADASTRADO, JA CADASTRA O PAIS E O ESTADO
-				if (countryOptional.isEmpty()) {
-					countrySave = countryRepository.save(country_recebido);
-					// SALVANDO NO LOG
-					lCoun.salvar(countrySave, "country");
-					state_recebido.setCountry(countrySave);
-					stateSave = stateRepository.save(state_recebido);
-					// SALVANDO NO LOG
-					ls.salvar(stateSave, "state");
-					city_recebida.setState(stateSave);
-				} else {
-					// VERIFICA DE O ESTADO DA CIDADE JA ESTA CADASTRADO
-					Optional<State> stateOptional = stateRepository.verificarState(state_recebido.getName());
-
-					if (stateOptional.isEmpty()) {
-						stateSave = stateRepository.save(state_recebido);
-						// SALVANDO NO LOG
-						ls.salvar(stateSave, "state");
-						city_recebida.setState(stateSave);
-					}else {
-						//CASO O ESTADO SEJA SELECIONADO PELO COMBOBOX, E ESSE ESTADO JA SEJA CADASTRADO
-						// ELE SERA RECEBICO NA API SEM O SEU ID, ENTAO AO VEIRICAR QUE ELE JA É CADASTRADO
-						// ALTERA O QUE RECEBEU SEM ID, PELO OQUE FOI BUSCADO NO BANCO
-						city_recebida.setState(stateOptional.get());
-					}
-				}
+				// VERIFICANDO SE AS FKS ESTAO SALVAS OU NAO, CASO NÃO: ELAS SAO SALVAS
+				countrySave = countryService.verificarCadastro(country_recebido);
+				state_recebido.setCountry(countrySave);
+				stateSave = stateService.verificarCadastro(state_recebido);
+				city_recebida.setState(stateSave);
 
 				citySave = cityRepository.save(city_recebida);
 
@@ -112,18 +91,31 @@ public class CityService {
 
 	// BUSCA POR NOME AS CITYS CADASTRADAS
 	public List<City> cityNameState(String name) {
-	
+
 		Optional<State> state = stateRepository.verificarState(name);
 		List<City> CITYS = new ArrayList<>();
-		if(!state.isEmpty()) {
-			List<City> citys = lc.getCity("city");			
+		if (!state.isEmpty()) {
+			List<City> citys = lc.getCity("city");
 			for (City c : citys) {
 				if (c.getState().getId() == state.get().getId()) {
 					CITYS.add(c);
 				}
 			}
 		}
-		
+
 		return CITYS;
+	}
+
+	public City verificarCadastro(City city) {
+
+		Optional<City> cityBanco = cityRepository.verificarCity(city.getName());
+
+		if (cityBanco.isEmpty()) {
+			citySave = cityRepository.save(city);
+			lc.salvar(citySave, "city");
+		} else {
+			citySave = cityBanco.get();
+		}
+		return citySave;
 	}
 }
