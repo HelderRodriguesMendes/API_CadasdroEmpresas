@@ -47,6 +47,13 @@ public class NeighborhoodController {
 		return new ResponseEntity<List<Neighborhood>>(NEIG, HttpStatus.OK);
 	}
 
+	// BUSCA POR FK TODAS AS NEIGHBORHOOR CADASTRADAS E ATIVAS
+	@GetMapping("/findAllNeighborhoodNameCity/name")
+	public ResponseEntity<List<Neighborhood>> neighborhoodNameCity(@RequestParam String name) {
+		List<Neighborhood> NEIG = neighborhoodService.neighborhoodNameCity(name);
+		return new ResponseEntity<List<Neighborhood>>(NEIG, HttpStatus.OK);
+	}
+
 	// ALTERA UMA NEIGHBORHOOR
 	@PutMapping("/alterar/{id}")
 	public ResponseEntity<Boolean> alterar(@Valid @RequestBody Neighborhood neighborhood, @PathVariable Long id) {

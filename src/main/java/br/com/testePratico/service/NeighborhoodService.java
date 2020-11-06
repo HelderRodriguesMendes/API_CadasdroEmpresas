@@ -1,5 +1,6 @@
 package br.com.testePratico.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ import br.com.testePratico.model.City;
 import br.com.testePratico.model.Country;
 import br.com.testePratico.model.Neighborhood;
 import br.com.testePratico.model.State;
+import br.com.testePratico.repository.CityRepository;
 import br.com.testePratico.repository.NeighborhoodRepository;
 
 @Service
@@ -22,13 +24,16 @@ public class NeighborhoodService {
 
 	@Autowired
 	NeighborhoodRepository neighborhoodRepository;
-	
+
+	@Autowired
+	CityRepository cityRepository;
+
 	@Autowired
 	CountryService countryService;
 
 	@Autowired
 	StateService stateService;
-	
+
 	@Autowired
 	CityService cityService;
 
@@ -39,7 +44,7 @@ public class NeighborhoodService {
 	Neighborhood neighborhoodSave = new Neighborhood();
 
 	// SALVA UMA NEIGHBORHOOR NO BANCO E NO ARQUIVO DE LOG
-	public Boolean cadastrar(Neighborhood neighborhood_recebida, String status) {		
+	public Boolean cadastrar(Neighborhood neighborhood_recebida, String status) {
 		Country countrySave = null;
 		State stateSave = null;
 		City citySave = null;
@@ -55,15 +60,15 @@ public class NeighborhoodService {
 				City city_recebida = neighborhood_recebida.getCity();
 				State state_recebido = city_recebida.getState();
 				Country country_recebido = state_recebido.getCountry();
-				
-				//VERIFICANDO SE AS FKS ESTAO SALVAS OU NAO, CASO NÃO: ELAS SAO SALVAS
+
+				// VERIFICANDO SE AS FKS ESTAO SALVAS OU NAO, CASO NÃO: ELAS SAO SALVAS
 				countrySave = countryService.verificarCadastro(country_recebido);
 				state_recebido.setCountry(countrySave);
 				stateSave = stateService.verificarCadastro(state_recebido);
 				city_recebida.setState(stateSave);
 				citySave = cityService.verificarCadastro(city_recebida);
 				neighborhood_recebida.setCity(citySave);
-				
+
 				neighborhoodSave = neighborhoodRepository.save(neighborhood_recebida);
 
 				// SALVANDO DADOS NO ARQUIVO DE LOG
@@ -111,7 +116,24 @@ public class NeighborhoodService {
 		}
 		return true;
 	}
-	
+
+	// BUSCA POR FK AS CITYS CADASTRADAS
+	public List<Neighborhood> neighborhoodNameCity(String name) {
+
+		Optional<City> citys = cityRepository.verificarCity(name);
+		List<Neighborhood> NEIG = new ArrayList<>();
+		if (!citys.isEmpty()) {
+			List<Neighborhood> neigs = ln.getNeighborhood("neighborhood");
+			for (Neighborhood n : neigs) {
+				if (n.getCity().getId() == citys.get().getId()) {
+					NEIG.add(n);
+				}
+			}
+		}
+
+		return NEIG;
+	}
+
 	public Neighborhood verificarCadastro(Neighborhood neighborhood) {
 
 		Optional<Neighborhood> neighborhoodBanco = neighborhoodRepository.verificarNeighborhood(neighborhood.getName());

@@ -89,7 +89,7 @@ public class CityService {
 		return CITYS;
 	}
 
-	// BUSCA POR NOME AS CITYS CADASTRADAS
+	// BUSCA POR FK AS CITYS CADASTRADAS
 	public List<City> cityNameState(String name) {
 
 		Optional<State> state = stateRepository.verificarState(name);
