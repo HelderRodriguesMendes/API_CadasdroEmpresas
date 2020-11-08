@@ -18,7 +18,7 @@ public interface NeighborhoodRepository extends JpaRepository<Neighborhood, Long
 
 	// BUSCA TODOS OS STATES CADASTRADOS E ATIVOS
 	@Transactional
-	@Query(value = "select * from neighborhood order by name limit 100", nativeQuery = true)
+	@Query(value = "select * from neighborhood where ativo = true order by name limit 100", nativeQuery = true)
 	Optional<List<Neighborhood>> findAllNeighborhood();
 
 	// BUSCA POR NOME TODAS AS NEIGHBORHOOR CADASTRADAS E ATIVAS
