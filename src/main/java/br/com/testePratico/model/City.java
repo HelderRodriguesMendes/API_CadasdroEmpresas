@@ -35,7 +35,7 @@ public class City implements Serializable{		//CIDADE
 	
 	@JsonBackReference
 	@ManyToOne()
-	@JoinColumn(name = "STATE_ID")
+	@JoinColumn(name = "STATE_ID", nullable = false)
 	private State state;
 
 	public City() {}

@@ -35,7 +35,7 @@ public class Neighborhood implements Serializable{		//VIZINHANÇA
 	
 	@JsonBackReference
 	@ManyToOne()
-	@JoinColumn(name = "CITY_ID")
+	@JoinColumn(name = "CITY_ID", nullable = false)
 	private City city;
 	
 	private Boolean ativo;

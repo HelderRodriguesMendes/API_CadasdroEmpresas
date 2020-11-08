@@ -19,8 +19,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(of = { "id" })
-public class Company implements Serializable { // VIZINHANÇA
-
+public class Company implements Serializable { 
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -36,19 +36,19 @@ public class Company implements Serializable { // VIZINHANÇA
 	private String corporateName;
 
 	@ManyToOne()
-	@JoinColumn(name = "COUNTRY_ID")
+	@JoinColumn(name = "COUNTRY_ID", nullable = false)
 	private Country country;
 
 	@ManyToOne()
-	@JoinColumn(name = "STATE_ID")
+	@JoinColumn(name = "STATE_ID", nullable = false)
 	private State state;
 
 	@ManyToOne()
-	@JoinColumn(name = "CITY_ID")
+	@JoinColumn(name = "CITY_ID", nullable = false)
 	private City city;
 
 	@ManyToOne()
-	@JoinColumn(name = "NEIGHBORHOOD_ID")
+	@JoinColumn(name = "NEIGHBORHOOD_ID", nullable = false)
 	private Neighborhood neighborhood;
 
 	@Column(nullable = false, columnDefinition = "varchar(30)")
@@ -64,4 +64,6 @@ public class Company implements Serializable { // VIZINHANÇA
 	private String federalTaxNumber;
 	
 	private Boolean ativo;
+	
+	public Company() {}
 }
