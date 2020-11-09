@@ -5,4 +5,4 @@ de dados h2 para exibir os dados processados que estão armazenados nos arquivos
 Tecnologias utilizadas: Spring Boot, Maven, Hibernate, JPA, Spring Data JPA, Java 11, Spring Tool Suite, XAMPP, Postman
 
 Para a execução da API, é necessário alterar: A conexão com o banco H2, que está no arquivo application.properties e, altera o caminho da pasta que será salvo os arquivos de Log,
-esta alteração deve ser feita na variável caminhoPasta que está em: pacote br.com.testePratico.log, classe LogConfig, método configCaminhoPasta --> caminhoPasta
+esta alteração deve ser feita na variável caminhoPasta que está em: pacote br.com.testePratico.log, classe LogConfig, métodos: configCaminhoPasta --> caminhoPasta, config_CaminhoPasta --> caminhoPasta
