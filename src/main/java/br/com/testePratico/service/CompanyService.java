@@ -120,6 +120,7 @@ public class CompanyService {
 
 				ID = String.valueOf(company.getState().getId());
 				if (ID.equals("") || company.getState().getId() == null) {
+					System.out.println();
 					company.getState().setCountry(countrySave);
 					stateSave = stateRepository.save(company.getState());
 					logState.salvar(stateSave, "state");
@@ -191,6 +192,13 @@ public class CompanyService {
 		List<Company> COMPANYS = companyRepository.companyName(name)
 				.orElseThrow(() -> new NotFound("Registros não encontrados"));
 		return COMPANYS;
+	}
+
+	// BUSCA TODOS OS DADOS DE UMA UNICA COMPANY
+	public Company detalharCompany(Long id) {
+		Company COMPANY = companyRepository.findById(id)
+				.orElseThrow(() -> new NotFound("Registros não encontrados"));
+		return COMPANY;
 	}
 
 	// DESATIVA OU ATIVA UMA COMPANY

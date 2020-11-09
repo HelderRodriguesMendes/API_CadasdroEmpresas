@@ -30,7 +30,7 @@ public class LogCity {
 				arqui.write("name:" + city.getName() + "#");
 				arqui.write("state:" + city.getState().getId());
 			}
-
+System.out.println();
 			arqui.close();
 		} catch (IOException e) {
 			e.printStackTrace();

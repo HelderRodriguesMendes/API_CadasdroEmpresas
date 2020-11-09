@@ -128,7 +128,6 @@ public class LogNeighborhood {
 		BufferedReader bf = lc.configCaminho_Pasta(entity);
 		List<String> LINHAS = new ArrayList<>();
 		String linha, linhaAlterada, alteracaoAtual;
-
 		try {
 			while (bf.ready()) {
 				linha = bf.readLine();
